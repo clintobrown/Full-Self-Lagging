@@ -3,7 +3,7 @@
   "id": "compute_ready",
   "title": "No ready state (compute or checklist faults)",
   "role": "category",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, Aug–Oct 2026"
@@ -197,10 +197,10 @@
         },
         {
           "when": {
-            "platform": "perseus"
+            "platform": "peterbilt"
           },
           "steps": [
-            "TODO: Perseus cold-start sequence from SOP.",
+            "TODO: Peterbilt cold-start sequence from SOP.",
             "Wait for the truck to reconnect to the tool before doing anything else."
           ]
         }
@@ -255,10 +255,10 @@
         },
         {
           "when": {
-            "platform": "perseus"
+            "platform": "peterbilt"
           },
           "steps": [
-            "TODO: Perseus cold-start sequence from SOP.",
+            "TODO: Peterbilt cold-start sequence from SOP.",
             "Wait for the truck to reconnect to the tool before doing anything else."
           ]
         }
