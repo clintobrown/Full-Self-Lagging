@@ -31,7 +31,7 @@ def build(rows):
     trucks, trailers = [], []
     for r in rows:
         rid, sub, st = r.get("Aurora ID", ""), r.get("Sub-Class", ""), r.get("Vehicle Status", "")
-        if not rid: continue
+        if not rid or rid.upper().startswith("PEN-") or (rid.lower().startswith("a579m-") and rid[6:].isdigit() and int(rid[6:]) < 600): continue  # never troubleshot
         loc = r.get("Location", "") or "Other / unknown"
         if sub == "Class 8 Truck" and st in TRUCK_STATUSES:
             trucks.append({"id": rid, "loc": loc, "platform": platform(r), "status": st,
