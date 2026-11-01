@@ -1,13 +1,10 @@
-// Shows the truck's last tickets in purple under the "From past TS tickets" banner.
-// Data: tickets/<truck-id>.json. Jira checkpoint: if that file is missing or older
-// than 24h, the box tells the user to log into Jira and refresh it (see README).
+// Colors the DTP numbers in the "From past TS tickets" banner purple (each opens that
+// ticket in Jira) and adds a "Truck History More Details" button that opens this
+// truck's DTP tickets in Jira, newest first. No saved ticket copies, so nothing goes stale.
 (function(){
-  var cache = {};
-  var STALE_MS = 24 * 60 * 60 * 1000;
-  var JIRA = 'https://jira.int.aurora.tech/issues/?jql=';
-  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  var JIRA = 'https://jira.int.aurora.tech/';
   function truckId(){ var p = document.querySelector('.pill.truck'); return p ? p.textContent.trim().toLowerCase() : ''; }
-  function jiraLink(t){ return JIRA + encodeURIComponent('project = DTP AND summary ~ "' + t + '" ORDER BY created DESC'); }
+  function historyLink(t){ return JIRA + 'issues/?jql=' + encodeURIComponent('project = DTP AND summary ~ "' + t + '" ORDER BY created DESC'); }
   function findBanner(){
     var all = document.querySelectorAll('main *'), hit = null;
     for (var i = 0; i < all.length; i++) { if (all[i].textContent.indexOf('From past TS tickets') >= 0) hit = all[i]; }
@@ -17,44 +14,36 @@
   function addStyle(){
     if (document.getElementById('rt-style')) return;
     var s = document.createElement('style'); s.id = 'rt-style';
-    s.textContent = '.rt-box{margin:8px 0 0;padding:10px 12px;border-left:4px solid #9D4EDD;background:rgba(157,78,221,.10);border-radius:6px}'
-    + '.rt-title{font-weight:900;font-size:16px;color:#9D4EDD;margin-bottom:4px}'
-    + '.rt-box ul{margin:0;padding-left:20px}'
-    + '.rt-box li{color:#9D4EDD;font-size:16px;margin:4px 0}'
-    + '.rt-none{font-style:italic;opacity:.75}'
-    + '.rt-warn{color:#9D4EDD;font-weight:800;font-size:15px;margin:4px 0;padding:6px 8px;border:2px dashed #9D4EDD;border-radius:6px}'
-    + '.rt-foot{color:#9D4EDD;font-size:14px;margin-top:6px;opacity:.9}'
-    + '.rt-box a{color:#9D4EDD;font-weight:800;text-decoration:underline}';
+    s.textContent = '.rt-dtp{color:#9D4EDD;font-weight:800;text-decoration:underline}'
+    + '.rt-row{margin-top:10px}'
+    + '.rt-btn{display:inline-flex;align-items:center;min-height:48px;padding:0 16px;border-radius:999px;border:2px solid #9D4EDD;background:rgba(157,78,221,.10);color:#9D4EDD;font-weight:800;font-size:16px;text-decoration:none}';
     document.head.appendChild(s);
   }
+  function linkDtps(b){
+    var w = document.createTreeWalker(b, NodeFilter.SHOW_TEXT), n, list = [];
+    while ((n = w.nextNode())) { if (/DTP-\d+/.test(n.nodeValue) && !n.parentNode.closest('a')) list.push(n); }
+    list.forEach(function(n){
+      var s = n.nodeValue, re = /DTP-\d+/g, m, i = 0, f = document.createDocumentFragment();
+      while ((m = re.exec(s))) {
+        f.appendChild(document.createTextNode(s.slice(i, m.index)));
+        var a = document.createElement('a'); a.className = 'rt-dtp'; a.href = JIRA + 'browse/' + m[0];
+        a.target = '_blank'; a.rel = 'noopener'; a.textContent = m[0];
+        f.appendChild(a); i = re.lastIndex;
+      }
+      f.appendChild(document.createTextNode(s.slice(i)));
+      n.parentNode.replaceChild(f, n);
+    });
+  }
   function draw(){
-    if (document.getElementById('rt-box')) return;
     var b = findBanner(), t = truckId();
-    if (!b || !t) return;
-    if (!(t in cache)) {
-      cache[t] = null;
-      fetch('./tickets/' + encodeURIComponent(t) + '.json').then(function(r){ return r.ok ? r.json() : {}; })
-      .then(function(j){ cache[t] = j || {}; draw(); }).catch(function(){ cache[t] = {}; draw(); });
-      return;
-    }
-    var d = cache[t];
-    if (!d) return;
-    var list = (d.tickets || []).slice(0, 5);
-    var age = d.updated ? Date.now() - Date.parse(d.updated) : Infinity;
-    var stale = !list.length || !(age < STALE_MS);
+    if (!b || !t || b.getAttribute('data-rt') === t) return;
+    b.setAttribute('data-rt', t);
     addStyle();
-    var html = '<div class="rt-title">Last ' + (list.length || 5) + ' tickets · ' + esc(t) + '</div>';
-    if (stale) html += '<div class="rt-warn">' + (list.length ? 'Ticket history is over 24h old.' : 'No ticket history loaded for this truck.')
-    + ' Jira checkpoint: log into Jira and refresh before troubleshooting.</div>';
-    if (list.length) html += '<ul>' + list.map(function(k){
-      return '<li><b>' + esc(k.key) + '</b> · ' + esc(k.date) + ' — Discrepancy: ' + esc(k.discrepancy)
-      + ' · Resolution: ' + (k.resolution ? esc(k.resolution) : '<span class="rt-none">No resolution recorded</span>') + '</li>';
-    }).join('') + '</ul>';
-    html += '<div class="rt-foot">' + (d.updated ? 'Updated ' + esc(d.updated) + ' · ' : '')
-    + '<a href="' + jiraLink(t) + '" target="_blank" rel="noopener">Open last tickets in Jira</a></div>';
-    var box = document.createElement('div'); box.id = 'rt-box'; box.className = 'rt-box';
-    box.innerHTML = html;
-    b.insertAdjacentElement('afterend', box);
+    linkDtps(b);
+    var row = document.createElement('div'); row.className = 'rt-row';
+    var btn = document.createElement('a'); btn.className = 'rt-btn'; btn.href = historyLink(t);
+    btn.target = '_blank'; btn.rel = 'noopener'; btn.textContent = 'Truck History More Details';
+    row.appendChild(btn); b.appendChild(row);
   }
   new MutationObserver(draw).observe(document.body, {childList: true, subtree: true});
   draw();
