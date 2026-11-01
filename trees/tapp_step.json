@@ -3,7 +3,7 @@
   "id": "tapp_step",
   "title": "TApp step failed",
   "role": "category",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, Aug–Oct 2026"
@@ -69,6 +69,7 @@
         {
           "label": "Reset PBT",
           "short": "Reset PBT",
+          "platforms": ["peterbilt"],
           "next": "ts_pbt"
         },
         {
