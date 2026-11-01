@@ -1,0 +1,12 @@
+{
+  "truck": "alts1-00009",
+  "updated": "2026-11-01",
+  "source": "Jira DTP",
+  "tickets": [
+    {"key":"DTP-112851","date":"10-31","discrepancy":"SW bundle download failed; compute not visible in Tailscale/TApp","resolution":"Cold start restored connectivity"},
+    {"key":"DTP-112797","date":"10-30","discrepancy":"Remote Assist: localization fault (map fusion pose fault)","resolution":"Not resolved; went manual due to HOS"},
+    {"key":"DTP-112791","date":"10-30","discrepancy":"Asked to bypass disk swap; disks already empty (related: DTP-108037)","resolution":""},
+    {"key":"DTP-112781","date":"10-30","discrepancy":"Tablet not connecting to truck for 22+ min","resolution":""},
+    {"key":"DTP-112778","date":"10-30","discrepancy":"Asked to bypass calibration stage","resolution":"VRE reset tasks; active trip confirmed"}
+  ]
+}
