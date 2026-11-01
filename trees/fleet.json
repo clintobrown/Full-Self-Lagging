@@ -16,56 +16,56 @@
   {
    "id": "PBT-2103",
    "loc": "Palmer Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "[Legacy] Dev (2.75)"
   },
   {
    "id": "a579m-00523",
    "loc": "Palmer Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 1.0"
   },
   {
    "id": "a579m-00531",
    "loc": "Palmer Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 1.0"
   },
   {
    "id": "a579m-00612",
    "loc": "Palmer Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
   {
    "id": "a579m-00654",
    "loc": "Palmer Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
   {
    "id": "alts1-00009",
    "loc": "Palmer Terminal",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
   {
    "id": "alts1-00010",
    "loc": "Palmer Terminal",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
   {
    "id": "alts3-00001",
    "loc": "Palmer Terminal",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
@@ -100,77 +100,77 @@
   {
    "id": "PBT-1429",
    "loc": "Aledo Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "[Legacy] Dev (2.75)"
   },
   {
    "id": "PBT-2102",
    "loc": "Aledo Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "[Legacy] Dev (2.75)"
   },
   {
    "id": "PBT-2105",
    "loc": "Aledo Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "[Legacy] Dev (2.75)"
   },
   {
    "id": "a579m-00508",
    "loc": "Aledo Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Legacy EngDev"
   },
   {
    "id": "a579m-00526",
    "loc": "Aledo Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 1.0"
   },
   {
    "id": "a579m-00607",
    "loc": "Aledo Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
   {
    "id": "a579m-00608",
    "loc": "Aledo Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
   {
    "id": "a579m-00611",
    "loc": "Aledo Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
   {
    "id": "a579m-00650",
    "loc": "Aledo Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
   {
    "id": "a579m-00652",
    "loc": "Aledo Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
   {
    "id": "alts1-00008",
    "loc": "Aledo Terminal",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Not Active",
    "desc": "Perseus"
   },
@@ -184,140 +184,140 @@
   {
    "id": "alts1-00007",
    "loc": "Aledo Terminal Guard Geofence",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
   {
    "id": "a579m-00503",
    "loc": "HOU2 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Aumovio FOT1.1"
   },
   {
    "id": "a579m-00506",
    "loc": "HOU2 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Legacy EngDev"
   },
   {
    "id": "a579m-00510",
    "loc": "HOU2 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Legacy EngDev"
   },
   {
    "id": "a579m-00519",
    "loc": "HOU2 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 1.0"
   },
   {
    "id": "a579m-00520",
    "loc": "HOU2 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 1.0"
   },
   {
    "id": "a579m-00605",
    "loc": "HOU2 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
   {
    "id": "a579m-00615",
    "loc": "HOU2 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
   {
    "id": "PBT-1366",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "[Legacy] Dev (2.75)"
   },
   {
    "id": "a579m-00501",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Legacy EngDev"
   },
   {
    "id": "a579m-00507",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Legacy EngDev"
   },
   {
    "id": "a579m-00521",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Aumovio FOT1.1"
   },
   {
    "id": "a579m-00522",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Aumovio FOT1.0"
   },
   {
    "id": "a579m-00524",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Aumovio FOT1.0"
   },
   {
    "id": "a579m-00527",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 1.0"
   },
   {
    "id": "a579m-00604",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
   {
    "id": "a579m-00606",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
   {
    "id": "a579m-00613",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
   {
    "id": "a579m-00614",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
   {
    "id": "a579m-00651",
    "loc": "El Paso Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
@@ -338,56 +338,56 @@
   {
    "id": "a579m-00509",
    "loc": "Laredo Tru by Hilton",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Legacy EngDev"
   },
   {
    "id": "a579m-00529",
    "loc": "Laredo Tru by Hilton",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 1.0"
   },
   {
    "id": "a579m-00655",
    "loc": "Laredo Tru by Hilton",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
   {
    "id": "a579m-00657",
    "loc": "Laredo Tru by Hilton",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
   {
    "id": "a579m-00525",
    "loc": "PHX1 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 1.0"
   },
   {
    "id": "a579m-00601",
    "loc": "PHX1 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
   {
    "id": "a579m-00609",
    "loc": "PHX1 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
   {
    "id": "a579m-00653",
    "loc": "PHX1 Terminal",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
@@ -401,35 +401,35 @@
   {
    "id": "alts1-00003",
    "loc": "Charlotte St.",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
   {
    "id": "a579m-00528",
    "loc": "Continential",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Aumovio FOT1.0"
   },
   {
    "id": "a579m-00402",
    "loc": "Detmar",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Legacy EngDev"
   },
   {
    "id": "a579m-00513",
    "loc": "Detmar",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 1.0"
   },
   {
    "id": "alts1-00006",
    "loc": "Detmar",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
@@ -443,28 +443,28 @@
   {
    "id": "a579m-00658",
    "loc": "Laredo Holiday Inn Express",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
   {
    "id": "a579m-00511",
    "loc": "MTVHQ",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Not Active",
    "desc": "Fusion Gen 1.0"
   },
   {
    "id": "PBT-2106",
    "loc": "Midland Relay Meetup: Kent Kwik Exit 143",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "[Legacy] Dev (2.75)"
   },
   {
    "id": "a579m-00616",
    "loc": "Midland Relay Meetup: Kent Kwik Exit 143",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
@@ -562,14 +562,14 @@
   {
    "id": "alts1-00011",
    "loc": "PGN",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
   {
    "id": "alts1-00022",
    "loc": "PGN",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
@@ -590,7 +590,7 @@
   {
    "id": "alts2-00005",
    "loc": "PGN",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Bringup",
    "desc": "Perseus"
   },
@@ -604,28 +604,28 @@
   {
    "id": "alts1-00002",
    "loc": "PIT3/SPA",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
   {
    "id": "alts1-00001",
    "loc": "PIT5/WMG",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
   {
    "id": "alts1-00004",
    "loc": "PIT5/WMG",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
   {
    "id": "alts2-00001",
    "loc": "PIT5/WMG",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
@@ -639,7 +639,7 @@
   {
    "id": "a579m-00530",
    "loc": "PIT8/PGN",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 1.0"
   },
@@ -660,567 +660,567 @@
   {
    "id": "a579m-00504",
    "loc": "Palmer Terminal Guard Geofence",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Legacy EngDev"
   },
   {
    "id": "a579m-00502",
    "loc": "Rockpointe Test Track",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Not Active",
    "desc": "Legacy EngDev"
   },
   {
    "id": "a579m-00610",
    "loc": "Rockpointe Test Track",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
   {
    "id": "alts1-00005",
    "loc": "Rockpointe Test Track",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Active",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00029",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Bringup",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00051",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00052",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00053",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00054",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00055",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00056",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00057",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00058",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00059",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00060",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00061",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00062",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00063",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00064",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00065",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00066",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00067",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00068",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00069",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00070",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00071",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00072",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00073",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00074",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00075",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00076",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00077",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00078",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00079",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00080",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00081",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00082",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00083",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00084",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00085",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00086",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00087",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00088",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00089",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00090",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00091",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00092",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00093",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00094",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00095",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00096",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00097",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00098",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00099",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00100",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00101",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00102",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00103",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00104",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00105",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00106",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00107",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00108",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00109",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00110",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00111",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00112",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00113",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00114",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00115",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00116",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00117",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00118",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00119",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00120",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00121",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00122",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00123",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00124",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "alts4-00125",
    "loc": "Roush",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Delivered",
    "desc": "Perseus"
   },
   {
    "id": "a579m-00656",
    "loc": "Suntrax",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
   },
@@ -1234,7 +1234,7 @@
   {
    "id": "a579m-00602",
    "loc": "Uvalde Proving Grounds",
-   "platform": "",
+   "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
   },
@@ -1255,7 +1255,7 @@
   {
    "id": "alts4-00028",
    "loc": "WMG",
-   "platform": "perseus",
+   "platform": "international",
    "status": "Bringup",
    "desc": "Perseus"
   }
