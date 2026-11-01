@@ -3,7 +3,7 @@
   "id": "stack_control",
   "title": "Stack mode or control state gap",
   "role": "category",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, Aug–Oct 2026"
@@ -90,7 +90,7 @@
             "platform": "volvo"
           },
           "steps": [
-            "TODO: Volvo cold-start sequence from SOP.",
+            "Swap stack to idle via TAPP or Scout.", "Apply parking brake.", "Press and hold the Compute Power Button for 5 seconds. PWR indicators blink red.", "Wait for both PWR indicators to slow-blink green.", "Press and hold the Engine Start Button to turn off the vehicle.", "Turn the primary battery bank switch OFF.", "Turn the redundant (secondary) battery bank switch OFF.", "Ensure both TMS LEDs are off. If on, cycle the battery switches again.", "Wait a minimum of 3 minutes.", "Ensure the DBW Disconnect is in the up/released position.", "Turn the redundant (secondary) battery bank switch ON.", "Connect shore power if needed.", "Turn the primary battery bank switch ON.", "Shore power only: press Engine Start twice. Vehicle power: hold the Engine Start Button.", "Ensure both TMS LEDs show amber or green.", "Press the drive height recall button.", "Press the Compute Power Button for 1 second. It fast-blinks green, then goes steady.", "If it takes more than 10 minutes to boot, consult VRE.", "Swap to AV stack via TAPP or Scout.",
             "Wait for the truck to reconnect to the tool before doing anything else."
           ]
         },
@@ -99,7 +99,7 @@
             "platform": "international"
           },
           "steps": [
-            "TODO: International cold-start sequence from SOP.",
+            "Perform System Shut Down.", "Apply parking brake and place transmission in Neutral.", "Swap stack to idle via TAPP or Scout.", "Turn ignition key OFF. The LED stays solid green for about 150 seconds, flashes red for about 10 seconds, then turns off.", "Wait a minimum of 3 minutes after the LED is off.", "Perform System Start Up.", "Ensure the DBW Cutoff Switch is in the up/released position.", "Engine power: start the engine and keep the ignition key in ON.", "Shore power: confirm the shore power switch is off, connect shore power to the vehicle DC receptacle, turn the shore power switch on, then turn the ignition key to ON.", "Ensure the Compute Power Button is flashing once per second (system ready to boot).", "Press and release the Compute Power Button. The LED fast-blinks green, then burns steadily.", "Swap to AV stack via TAPP or Scout.",
             "Wait for the truck to reconnect to the tool before doing anything else."
           ]
         },
@@ -108,7 +108,7 @@
             "platform": "peterbilt"
           },
           "steps": [
-            "TODO: Peterbilt cold-start sequence from SOP.",
+            "If a mission is running, stop the mission. Stopping it takes the stack to idle.", "Note: on Peterbilt, opening doors or turning on lights during a cold start can sometimes cause issues. Avoid it if possible.", "Perform System Shut Down.", "Apply parking brake and place transmission in Neutral.", "Swap stack to idle via TAPP or Scout.", "Once the stack is idle, remove logging disks if needed.", "Turn ignition key OFF.", "If on shore power: turn the shore power unit switch OFF and disconnect shore power from the vehicle.", "Wait a minimum of 2 minutes.", "Perform System Start Up.", "Press the DBW Disconnect switch.", "Start the engine. If on shore power: plug in shore power and turn the key to ON for 5 seconds.", "Immediately release the DBW Disconnect button and ensure it is in the up/released position.", "Wait for both PWR indicators on the LSI to slow-blink green.", "Press the Compute Power Button for 1 second. PWR indicators fast-blink green, then burn steadily.", "If the system takes more than 10 minutes to boot, consult VRE.", "FG2.1 only: perform the TBS check.", "Swap to AV stack via TAPP or Scout.",
             "Wait for the truck to reconnect to the tool before doing anything else."
           ]
         }
