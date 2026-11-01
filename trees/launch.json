@@ -3,7 +3,7 @@
   "id": "launch",
   "title": "Launch issue",
   "role": "category",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, Jun–Oct 2026"
@@ -117,10 +117,10 @@
         },
         {
           "when": {
-            "platform": "perseus"
+            "platform": "peterbilt"
           },
           "steps": [
-            "TODO: Perseus cold-start sequence from SOP.",
+            "TODO: Peterbilt cold-start sequence from SOP.",
             "Wait for the truck to reconnect to the tool before doing anything else."
           ]
         }
