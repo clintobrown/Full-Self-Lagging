@@ -12,7 +12,7 @@ LOCATION_ORDER = ["Palmer Terminal", "Aledo Terminal", "Aledo Terminal Guard Geo
 
 def platform(r):
     p, make, model = r.get("AV Platform", ""), r.get("Make", ""), r.get("Model", "")
-    if p == "Perseus": return "perseus"
+    if make == "Peterbilt" or r.get("Aurora ID", "").lower().startswith(("a579m", "pbt")): return "peterbilt"
     if p.startswith("Volvo") or make == "Volvo" or model.startswith("VNL"): return "volvo"
     rid = r.get("Aurora ID", "").lower()
     if make == "International" or make.startswith("LT6") or model.startswith("LT6") or rid.startswith("alts"): return "international"
