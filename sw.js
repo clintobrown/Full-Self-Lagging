@@ -1,6 +1,6 @@
 // READY STATE or DIE offline cache. Bump CACHE when you change index.html.
 // Tree JSON updates don't need a bump: they're refreshed in the background on every load.
-const CACHE = 'rsod-v6';
+const CACHE = 'rsod-v7';
 const SHELL = ['./', './index.html', './recent.js', './trees/manifest.json'];
 
 self.addEventListener('install', e => {
