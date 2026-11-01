@@ -3,7 +3,7 @@
   "id": "compute_ready",
   "title": "No ready state (compute or checklist faults)",
   "role": "category",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, Aug–Oct 2026"
@@ -43,14 +43,8 @@
     "cr_checks": {
       "type": "question",
       "text": "What do the failing checklists point to?",
-      "help": "Some checklists include recovery text, e.g. ACI BIST over 20 hours: '1. Cold start the system. 2. If it persists, escalate to VRE.'",
       "source": "TS: DTP-110498, DTP-105363, DTP-106551, DTP-109224, DTP-111734",
       "options": [
-        {
-          "label": "Checklist itself says 'cold start the system'",
-          "short": "CS instructed",
-          "next": "cr_cs"
-        },
         {
           "label": "Driver absent / seat belt",
           "short": "Driver absent",
