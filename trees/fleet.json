@@ -14,13 +14,6 @@
  ],
  "trucks": [
   {
-   "id": "PBT-2103",
-   "loc": "Palmer Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "[Legacy] Dev (2.75)"
-  },
-  {
    "id": "a579m-00612",
    "loc": "Palmer Terminal",
    "platform": "peterbilt",
@@ -82,27 +75,6 @@
    "platform": "volvo",
    "status": "Active",
    "desc": "Volvo Fusion"
-  },
-  {
-   "id": "PBT-1429",
-   "loc": "Aledo Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "[Legacy] Dev (2.75)"
-  },
-  {
-   "id": "PBT-2102",
-   "loc": "Aledo Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "[Legacy] Dev (2.75)"
-  },
-  {
-   "id": "PBT-2105",
-   "loc": "Aledo Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "[Legacy] Dev (2.75)"
   },
   {
    "id": "a579m-00607",
@@ -173,13 +145,6 @@
    "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
-  },
-  {
-   "id": "PBT-1366",
-   "loc": "El Paso Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "[Legacy] Dev (2.75)"
   },
   {
    "id": "a579m-00604",
@@ -299,13 +264,6 @@
    "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
-  },
-  {
-   "id": "PBT-2106",
-   "loc": "Midland Relay Meetup: Kent Kwik Exit 143",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "[Legacy] Dev (2.75)"
   },
   {
    "id": "a579m-00616",
