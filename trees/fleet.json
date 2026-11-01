@@ -21,20 +21,6 @@
    "desc": "[Legacy] Dev (2.75)"
   },
   {
-   "id": "a579m-00523",
-   "loc": "Palmer Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Fusion Gen 1.0"
-  },
-  {
-   "id": "a579m-00531",
-   "loc": "Palmer Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Fusion Gen 1.0"
-  },
-  {
    "id": "a579m-00612",
    "loc": "Palmer Terminal",
    "platform": "peterbilt",
@@ -119,20 +105,6 @@
    "desc": "[Legacy] Dev (2.75)"
   },
   {
-   "id": "a579m-00508",
-   "loc": "Aledo Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Legacy EngDev"
-  },
-  {
-   "id": "a579m-00526",
-   "loc": "Aledo Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Fusion Gen 1.0"
-  },
-  {
    "id": "a579m-00607",
    "loc": "Aledo Terminal",
    "platform": "peterbilt",
@@ -189,41 +161,6 @@
    "desc": "Perseus"
   },
   {
-   "id": "a579m-00503",
-   "loc": "HOU2 Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Aumovio FOT1.1"
-  },
-  {
-   "id": "a579m-00506",
-   "loc": "HOU2 Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Legacy EngDev"
-  },
-  {
-   "id": "a579m-00510",
-   "loc": "HOU2 Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Legacy EngDev"
-  },
-  {
-   "id": "a579m-00519",
-   "loc": "HOU2 Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Fusion Gen 1.0"
-  },
-  {
-   "id": "a579m-00520",
-   "loc": "HOU2 Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Fusion Gen 1.0"
-  },
-  {
    "id": "a579m-00605",
    "loc": "HOU2 Terminal",
    "platform": "peterbilt",
@@ -243,48 +180,6 @@
    "platform": "peterbilt",
    "status": "Active",
    "desc": "[Legacy] Dev (2.75)"
-  },
-  {
-   "id": "a579m-00501",
-   "loc": "El Paso Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Legacy EngDev"
-  },
-  {
-   "id": "a579m-00507",
-   "loc": "El Paso Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Legacy EngDev"
-  },
-  {
-   "id": "a579m-00521",
-   "loc": "El Paso Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Aumovio FOT1.1"
-  },
-  {
-   "id": "a579m-00522",
-   "loc": "El Paso Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Aumovio FOT1.0"
-  },
-  {
-   "id": "a579m-00524",
-   "loc": "El Paso Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Aumovio FOT1.0"
-  },
-  {
-   "id": "a579m-00527",
-   "loc": "El Paso Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Fusion Gen 1.0"
   },
   {
    "id": "a579m-00604",
@@ -336,20 +231,6 @@
    "desc": "Volvo Fusion"
   },
   {
-   "id": "a579m-00509",
-   "loc": "Laredo Tru by Hilton",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Legacy EngDev"
-  },
-  {
-   "id": "a579m-00529",
-   "loc": "Laredo Tru by Hilton",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Fusion Gen 1.0"
-  },
-  {
    "id": "a579m-00655",
    "loc": "Laredo Tru by Hilton",
    "platform": "peterbilt",
@@ -362,13 +243,6 @@
    "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.1"
-  },
-  {
-   "id": "a579m-00525",
-   "loc": "PHX1 Terminal",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Fusion Gen 1.0"
   },
   {
    "id": "a579m-00601",
@@ -406,27 +280,6 @@
    "desc": "Perseus"
   },
   {
-   "id": "a579m-00528",
-   "loc": "Continential",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Aumovio FOT1.0"
-  },
-  {
-   "id": "a579m-00402",
-   "loc": "Detmar",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Legacy EngDev"
-  },
-  {
-   "id": "a579m-00513",
-   "loc": "Detmar",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Fusion Gen 1.0"
-  },
-  {
    "id": "alts1-00006",
    "loc": "Detmar",
    "platform": "international",
@@ -448,13 +301,6 @@
    "desc": "Fusion Gen 2.1"
   },
   {
-   "id": "a579m-00511",
-   "loc": "MTVHQ",
-   "platform": "peterbilt",
-   "status": "Not Active",
-   "desc": "Fusion Gen 1.0"
-  },
-  {
    "id": "PBT-2106",
    "loc": "Midland Relay Meetup: Kent Kwik Exit 143",
    "platform": "peterbilt",
@@ -467,55 +313,6 @@
    "platform": "peterbilt",
    "status": "Active",
    "desc": "Fusion Gen 2.0"
-  },
-  {
-   "id": "PEN-252396",
-   "loc": "Other / unknown",
-   "platform": "",
-   "status": "Active",
-   "desc": ""
-  },
-  {
-   "id": "PEN-313224",
-   "loc": "Other / unknown",
-   "platform": "international",
-   "status": "Active",
-   "desc": ""
-  },
-  {
-   "id": "PEN-324553",
-   "loc": "Other / unknown",
-   "platform": "",
-   "status": "Active",
-   "desc": ""
-  },
-  {
-   "id": "PEN-334122",
-   "loc": "Other / unknown",
-   "platform": "international",
-   "status": "Active",
-   "desc": ""
-  },
-  {
-   "id": "PEN-381211",
-   "loc": "Other / unknown",
-   "platform": "",
-   "status": "Active",
-   "desc": ""
-  },
-  {
-   "id": "PEN-435153",
-   "loc": "Other / unknown",
-   "platform": "international",
-   "status": "Active",
-   "desc": ""
-  },
-  {
-   "id": "PEN-509684",
-   "loc": "Other / unknown",
-   "platform": "international",
-   "status": "Active",
-   "desc": ""
   },
   {
    "id": "VHB-189",
@@ -637,13 +434,6 @@
    "desc": "Volvo C1"
   },
   {
-   "id": "a579m-00530",
-   "loc": "PIT8/PGN",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Fusion Gen 1.0"
-  },
-  {
    "id": "asvat-02002",
    "loc": "PIT8/PGN",
    "platform": "volvo",
@@ -656,20 +446,6 @@
    "platform": "volvo",
    "status": "Active",
    "desc": "Volvo C1"
-  },
-  {
-   "id": "a579m-00504",
-   "loc": "Palmer Terminal Guard Geofence",
-   "platform": "peterbilt",
-   "status": "Active",
-   "desc": "Legacy EngDev"
-  },
-  {
-   "id": "a579m-00502",
-   "loc": "Rockpointe Test Track",
-   "platform": "peterbilt",
-   "status": "Not Active",
-   "desc": "Legacy EngDev"
   },
   {
    "id": "a579m-00610",
