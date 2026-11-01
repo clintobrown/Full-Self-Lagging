@@ -69,7 +69,7 @@
         "enum": [
           "volvo",
           "international",
-          "perseus"
+          "peterbilt"
         ]
       },
       "description": "Hide this category on other platforms. Omit = all."
@@ -101,7 +101,7 @@
           "enum": [
             "volvo",
             "international",
-            "perseus"
+            "peterbilt"
           ]
         }
       }
@@ -170,7 +170,7 @@
             "enum": [
               "volvo",
               "international",
-              "perseus"
+              "peterbilt"
             ]
           },
           "description": "Only show this answer on these platforms."
@@ -225,7 +225,7 @@
             "enum": [
               "volvo",
               "international",
-              "perseus"
+              "peterbilt"
             ]
           },
           "description": "Node only applies on these platforms. Requires skipTo."
