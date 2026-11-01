@@ -1,0 +1,1489 @@
+{
+ "source": "Vehicle Fleet Tracking Sheet / Master Sheet",
+ "generated": "2026-11-01",
+ "locationOrder": [
+  "Palmer Terminal",
+  "Aledo Terminal",
+  "Aledo Terminal Guard Geofence",
+  "HOU2 Terminal",
+  "El Paso Terminal",
+  "Laredo Tru by Hilton",
+  "PHX1 Terminal",
+  "DFW",
+  "FTW"
+ ],
+ "trucks": [
+  {
+   "id": "PBT-2103",
+   "loc": "Palmer Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "[Legacy] Dev (2.75)"
+  },
+  {
+   "id": "a579m-00523",
+   "loc": "Palmer Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "a579m-00531",
+   "loc": "Palmer Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "a579m-00612",
+   "loc": "Palmer Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "a579m-00654",
+   "loc": "Palmer Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "alts1-00009",
+   "loc": "Palmer Terminal",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts1-00010",
+   "loc": "Palmer Terminal",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts3-00001",
+   "loc": "Palmer Terminal",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "asvat-01006",
+   "loc": "Palmer Terminal",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo Fusion"
+  },
+  {
+   "id": "asvat-01008",
+   "loc": "Palmer Terminal",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo Fusion"
+  },
+  {
+   "id": "asvat-01009",
+   "loc": "Palmer Terminal",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo Fusion"
+  },
+  {
+   "id": "asvat-01010",
+   "loc": "Palmer Terminal",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo Fusion"
+  },
+  {
+   "id": "PBT-1429",
+   "loc": "Aledo Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "[Legacy] Dev (2.75)"
+  },
+  {
+   "id": "PBT-2102",
+   "loc": "Aledo Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "[Legacy] Dev (2.75)"
+  },
+  {
+   "id": "PBT-2105",
+   "loc": "Aledo Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "[Legacy] Dev (2.75)"
+  },
+  {
+   "id": "a579m-00508",
+   "loc": "Aledo Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Legacy EngDev"
+  },
+  {
+   "id": "a579m-00526",
+   "loc": "Aledo Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "a579m-00607",
+   "loc": "Aledo Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "a579m-00608",
+   "loc": "Aledo Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "a579m-00611",
+   "loc": "Aledo Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "a579m-00650",
+   "loc": "Aledo Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "a579m-00652",
+   "loc": "Aledo Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "alts1-00008",
+   "loc": "Aledo Terminal",
+   "platform": "perseus",
+   "status": "Not Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "asvat-01005",
+   "loc": "Aledo Terminal",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo Fusion"
+  },
+  {
+   "id": "alts1-00007",
+   "loc": "Aledo Terminal Guard Geofence",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "a579m-00503",
+   "loc": "HOU2 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Aumovio FOT1.1"
+  },
+  {
+   "id": "a579m-00506",
+   "loc": "HOU2 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Legacy EngDev"
+  },
+  {
+   "id": "a579m-00510",
+   "loc": "HOU2 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Legacy EngDev"
+  },
+  {
+   "id": "a579m-00519",
+   "loc": "HOU2 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "a579m-00520",
+   "loc": "HOU2 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "a579m-00605",
+   "loc": "HOU2 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "a579m-00615",
+   "loc": "HOU2 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "PBT-1366",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "[Legacy] Dev (2.75)"
+  },
+  {
+   "id": "a579m-00501",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Legacy EngDev"
+  },
+  {
+   "id": "a579m-00507",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Legacy EngDev"
+  },
+  {
+   "id": "a579m-00521",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Aumovio FOT1.1"
+  },
+  {
+   "id": "a579m-00522",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Aumovio FOT1.0"
+  },
+  {
+   "id": "a579m-00524",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Aumovio FOT1.0"
+  },
+  {
+   "id": "a579m-00527",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "a579m-00604",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "a579m-00606",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "a579m-00613",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "a579m-00614",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "a579m-00651",
+   "loc": "El Paso Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "asvat-01003",
+   "loc": "El Paso Terminal",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo Fusion"
+  },
+  {
+   "id": "asvat-01004",
+   "loc": "El Paso Terminal",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo Fusion"
+  },
+  {
+   "id": "a579m-00509",
+   "loc": "Laredo Tru by Hilton",
+   "platform": "",
+   "status": "Active",
+   "desc": "Legacy EngDev"
+  },
+  {
+   "id": "a579m-00529",
+   "loc": "Laredo Tru by Hilton",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "a579m-00655",
+   "loc": "Laredo Tru by Hilton",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "a579m-00657",
+   "loc": "Laredo Tru by Hilton",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "a579m-00525",
+   "loc": "PHX1 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "a579m-00601",
+   "loc": "PHX1 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "a579m-00609",
+   "loc": "PHX1 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "a579m-00653",
+   "loc": "PHX1 Terminal",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "asvat-01001",
+   "loc": "FTW",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo Fusion"
+  },
+  {
+   "id": "alts1-00003",
+   "loc": "Charlotte St.",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "a579m-00528",
+   "loc": "Continential",
+   "platform": "",
+   "status": "Active",
+   "desc": "Aumovio FOT1.0"
+  },
+  {
+   "id": "a579m-00402",
+   "loc": "Detmar",
+   "platform": "",
+   "status": "Active",
+   "desc": "Legacy EngDev"
+  },
+  {
+   "id": "a579m-00513",
+   "loc": "Detmar",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "alts1-00006",
+   "loc": "Detmar",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "asvat-02006",
+   "loc": "Houston Guard Geofence",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo C1"
+  },
+  {
+   "id": "a579m-00658",
+   "loc": "Laredo Holiday Inn Express",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "a579m-00511",
+   "loc": "MTVHQ",
+   "platform": "",
+   "status": "Not Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "PBT-2106",
+   "loc": "Midland Relay Meetup: Kent Kwik Exit 143",
+   "platform": "",
+   "status": "Active",
+   "desc": "[Legacy] Dev (2.75)"
+  },
+  {
+   "id": "a579m-00616",
+   "loc": "Midland Relay Meetup: Kent Kwik Exit 143",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "PEN-252396",
+   "loc": "Other / unknown",
+   "platform": "",
+   "status": "Active",
+   "desc": ""
+  },
+  {
+   "id": "PEN-313224",
+   "loc": "Other / unknown",
+   "platform": "international",
+   "status": "Active",
+   "desc": ""
+  },
+  {
+   "id": "PEN-324553",
+   "loc": "Other / unknown",
+   "platform": "",
+   "status": "Active",
+   "desc": ""
+  },
+  {
+   "id": "PEN-334122",
+   "loc": "Other / unknown",
+   "platform": "international",
+   "status": "Active",
+   "desc": ""
+  },
+  {
+   "id": "PEN-381211",
+   "loc": "Other / unknown",
+   "platform": "",
+   "status": "Active",
+   "desc": ""
+  },
+  {
+   "id": "PEN-435153",
+   "loc": "Other / unknown",
+   "platform": "international",
+   "status": "Active",
+   "desc": ""
+  },
+  {
+   "id": "PEN-509684",
+   "loc": "Other / unknown",
+   "platform": "international",
+   "status": "Active",
+   "desc": ""
+  },
+  {
+   "id": "VHB-189",
+   "loc": "Other / unknown",
+   "platform": "volvo",
+   "status": "Not Active",
+   "desc": "Volvo C1-Build"
+  },
+  {
+   "id": "VHB-190",
+   "loc": "Other / unknown",
+   "platform": "volvo",
+   "status": "Not Active",
+   "desc": "Volvo C1-Build"
+  },
+  {
+   "id": "asvat-01007",
+   "loc": "Other / unknown",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo Fusion"
+  },
+  {
+   "id": "asvat-02007",
+   "loc": "Other / unknown",
+   "platform": "volvo",
+   "status": "Not Active",
+   "desc": "Volvo C1"
+  },
+  {
+   "id": "asvat-02008",
+   "loc": "Other / unknown",
+   "platform": "volvo",
+   "status": "Not Active",
+   "desc": "Volvo C1"
+  },
+  {
+   "id": "asvat-02009",
+   "loc": "Other / unknown",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo C1"
+  },
+  {
+   "id": "alts1-00011",
+   "loc": "PGN",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts1-00022",
+   "loc": "PGN",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts2-00003",
+   "loc": "PGN",
+   "platform": "international",
+   "status": "Active",
+   "desc": ""
+  },
+  {
+   "id": "alts2-00004",
+   "loc": "PGN",
+   "platform": "international",
+   "status": "Active",
+   "desc": ""
+  },
+  {
+   "id": "alts2-00005",
+   "loc": "PGN",
+   "platform": "perseus",
+   "status": "Bringup",
+   "desc": "Perseus"
+  },
+  {
+   "id": "acsc1-10001",
+   "loc": "PIT Hardware",
+   "platform": "",
+   "status": "Not Active",
+   "desc": ""
+  },
+  {
+   "id": "alts1-00002",
+   "loc": "PIT3/SPA",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts1-00001",
+   "loc": "PIT5/WMG",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts1-00004",
+   "loc": "PIT5/WMG",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts2-00001",
+   "loc": "PIT5/WMG",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "asvat-02003",
+   "loc": "PIT5/WMG",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo C1"
+  },
+  {
+   "id": "a579m-00530",
+   "loc": "PIT8/PGN",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 1.0"
+  },
+  {
+   "id": "asvat-02002",
+   "loc": "PIT8/PGN",
+   "platform": "volvo",
+   "status": "Bringup",
+   "desc": "Volvo C1"
+  },
+  {
+   "id": "asvat-02004",
+   "loc": "PIT8/PGN",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo C1"
+  },
+  {
+   "id": "a579m-00504",
+   "loc": "Palmer Terminal Guard Geofence",
+   "platform": "",
+   "status": "Active",
+   "desc": "Legacy EngDev"
+  },
+  {
+   "id": "a579m-00502",
+   "loc": "Rockpointe Test Track",
+   "platform": "",
+   "status": "Not Active",
+   "desc": "Legacy EngDev"
+  },
+  {
+   "id": "a579m-00610",
+   "loc": "Rockpointe Test Track",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "alts1-00005",
+   "loc": "Rockpointe Test Track",
+   "platform": "perseus",
+   "status": "Active",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00029",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Bringup",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00051",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00052",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00053",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00054",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00055",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00056",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00057",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00058",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00059",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00060",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00061",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00062",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00063",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00064",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00065",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00066",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00067",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00068",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00069",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00070",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00071",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00072",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00073",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00074",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00075",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00076",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00077",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00078",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00079",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00080",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00081",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00082",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00083",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00084",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00085",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00086",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00087",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00088",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00089",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00090",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00091",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00092",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00093",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00094",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00095",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00096",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00097",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00098",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00099",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00100",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00101",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00102",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00103",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00104",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00105",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00106",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00107",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00108",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00109",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00110",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00111",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00112",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00113",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00114",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00115",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00116",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00117",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00118",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00119",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00120",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00121",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00122",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00123",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00124",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "alts4-00125",
+   "loc": "Roush",
+   "platform": "perseus",
+   "status": "Delivered",
+   "desc": "Perseus"
+  },
+  {
+   "id": "a579m-00656",
+   "loc": "Suntrax",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.1"
+  },
+  {
+   "id": "asvat-02005",
+   "loc": "TRC Ohio",
+   "platform": "volvo",
+   "status": "Bringup",
+   "desc": "Volvo C1"
+  },
+  {
+   "id": "a579m-00602",
+   "loc": "Uvalde Proving Grounds",
+   "platform": "",
+   "status": "Active",
+   "desc": "Fusion Gen 2.0"
+  },
+  {
+   "id": "asvat-01002",
+   "loc": "Volvo Greensboro",
+   "platform": "volvo",
+   "status": "Active",
+   "desc": "Volvo Fusion"
+  },
+  {
+   "id": "alts2-00002",
+   "loc": "WMG",
+   "platform": "international",
+   "status": "Active",
+   "desc": ""
+  },
+  {
+   "id": "alts4-00028",
+   "loc": "WMG",
+   "platform": "perseus",
+   "status": "Bringup",
+   "desc": "Perseus"
+  }
+ ],
+ "trailers": [
+  {
+   "id": "AURY-5428",
+   "loc": "Palmer Terminal"
+  },
+  {
+   "id": "PREM-191766",
+   "loc": "Palmer Terminal"
+  },
+  {
+   "id": "PREM-5180240",
+   "loc": "Palmer Terminal"
+  },
+  {
+   "id": "RYDE-570717",
+   "loc": "Palmer Terminal"
+  },
+  {
+   "id": "RYDE-570724",
+   "loc": "Palmer Terminal"
+  },
+  {
+   "id": "RYDE-570726",
+   "loc": "Palmer Terminal"
+  },
+  {
+   "id": "PREM-202069",
+   "loc": "Aledo Terminal"
+  },
+  {
+   "id": "RYDE-570718",
+   "loc": "Aledo Terminal"
+  },
+  {
+   "id": "PREM-5570246",
+   "loc": "Aledo Terminal Guard Geofence"
+  },
+  {
+   "id": "RYDE-570727",
+   "loc": "Aledo Terminal Guard Geofence"
+  },
+  {
+   "id": "PREM-210391",
+   "loc": "HOU2 Terminal"
+  },
+  {
+   "id": "RYDE-570719",
+   "loc": "HOU2 Terminal"
+  },
+  {
+   "id": "RYDE-570722",
+   "loc": "HOU2 Terminal"
+  },
+  {
+   "id": "AURY-5427",
+   "loc": "El Paso Terminal"
+  },
+  {
+   "id": "PREM-202264",
+   "loc": "El Paso Terminal"
+  },
+  {
+   "id": "PREM-203425",
+   "loc": "El Paso Terminal"
+  },
+  {
+   "id": "RYDE-570720",
+   "loc": "El Paso Terminal"
+  },
+  {
+   "id": "RYDE-570725",
+   "loc": "El Paso Terminal"
+  },
+  {
+   "id": "RYDE-570728",
+   "loc": "El Paso Terminal"
+  },
+  {
+   "id": "RYDE-570729",
+   "loc": "El Paso Terminal"
+  },
+  {
+   "id": "PREM-5211073",
+   "loc": "Laredo Tru by Hilton"
+  },
+  {
+   "id": "RYDE-765849",
+   "loc": "Laredo Tru by Hilton"
+  },
+  {
+   "id": "PREM-181166",
+   "loc": "PHX1 Terminal"
+  },
+  {
+   "id": "PREM-195253",
+   "loc": "PHX1 Terminal"
+  },
+  {
+   "id": "PREM-211457",
+   "loc": "PHX1 Terminal"
+  },
+  {
+   "id": "RYDE-570721",
+   "loc": "PHX1 Terminal"
+  },
+  {
+   "id": "RYDE-570723",
+   "loc": "PHX1 Terminal"
+  },
+  {
+   "id": "RYDE-570730",
+   "loc": "PHX1 Terminal"
+  },
+  {
+   "id": "TRL-16",
+   "loc": "DFW"
+  },
+  {
+   "id": "RYDE-523204",
+   "loc": "FTW"
+  },
+  {
+   "id": "WELL-9803",
+   "loc": "BZN"
+  },
+  {
+   "id": "TRL-17",
+   "loc": "MTVHQ"
+  },
+  {
+   "id": "TRL-1",
+   "loc": "Mill Lot"
+  },
+  {
+   "id": "TRL-2",
+   "loc": "Mill Lot"
+  },
+  {
+   "id": "TRL-6",
+   "loc": "Mill Lot"
+  },
+  {
+   "id": "PREM-168558",
+   "loc": "Other / unknown"
+  },
+  {
+   "id": "PREM-182104",
+   "loc": "Other / unknown"
+  },
+  {
+   "id": "PREM-195097",
+   "loc": "Other / unknown"
+  },
+  {
+   "id": "PREM-5181477",
+   "loc": "Other / unknown"
+  },
+  {
+   "id": "PREM-5190188",
+   "loc": "Other / unknown"
+  },
+  {
+   "id": "PREM-53796",
+   "loc": "Other / unknown"
+  },
+  {
+   "id": "TRL-14",
+   "loc": "PGN"
+  },
+  {
+   "id": "PREM-5211147",
+   "loc": "Rockpointe Test Track"
+  },
+  {
+   "id": "RYDE-570716",
+   "loc": "Rockpointe Test Track"
+  },
+  {
+   "id": "TRL-7",
+   "loc": "Rockpointe Test Track"
+  },
+  {
+   "id": "PREM-260655",
+   "loc": "SPA"
+  },
+  {
+   "id": "PREM-260697",
+   "loc": "SPA"
+  },
+  {
+   "id": "TRL-3",
+   "loc": "SPA"
+  },
+  {
+   "id": "PREM-222112",
+   "loc": "SPA Calibration Lot"
+  },
+  {
+   "id": "PREM-5211291",
+   "loc": "SPA Calibration Lot"
+  },
+  {
+   "id": "TRL-10",
+   "loc": "SPA Calibration Lot"
+  },
+  {
+   "id": "PREM-370417",
+   "loc": "Suntrax"
+  },
+  {
+   "id": "RYDE-672201",
+   "loc": "Suntrax"
+  },
+  {
+   "id": "AURY-5005",
+   "loc": "TRC Ohio"
+  },
+  {
+   "id": "PREM-203098",
+   "loc": "TRC Ohio"
+  },
+  {
+   "id": "PREM-5210926",
+   "loc": "TRC Ohio"
+  }
+ ]
+}

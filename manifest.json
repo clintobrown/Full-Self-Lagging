@@ -1,0 +1,39 @@
+{
+  "manifestVersion": "0.1.0",
+  "tools": [
+    {
+      "id": "scout",
+      "label": "Scout"
+    },
+    {
+      "id": "tapp",
+      "label": "TApp"
+    }
+  ],
+  "platforms": [
+    {
+      "id": "volvo",
+      "label": "Volvo"
+    },
+    {
+      "id": "international",
+      "label": "International"
+    },
+    {
+      "id": "perseus",
+      "label": "Perseus"
+    }
+  ],
+  "trees": [
+    "triage.json",
+    "calibration.json",
+    "sw_pull.json",
+    "tapp_step.json",
+    "compute_ready.json",
+    "stack_control.json",
+    "launch.json",
+    "scout_goal.json",
+    "other.json"
+  ],
+  "fleet": "fleet.json"
+}

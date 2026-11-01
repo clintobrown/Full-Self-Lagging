@@ -1,0 +1,143 @@
+{
+  "$schema": "./schema.json",
+  "id": "sw_pull",
+  "title": "SW pull failure",
+  "role": "category",
+  "version": "0.4.1",
+  "status": "DRAFT",
+  "sourceDocs": [
+    "DTP TS tickets via Glean, Jul–Oct 2026"
+  ],
+  "start": "sp_when",
+  "nodes": {
+    "sp_when": {
+      "type": "question",
+      "text": "When did the pull fail?",
+      "source": "TS: DTP-105627, DTP-111391, DTP-112058, DTP-91789",
+      "options": [
+        {
+          "label": "Right away, within about a minute",
+          "short": "Fast fail",
+          "next": "sp_ticket"
+        },
+        {
+          "label": "After running a long time",
+          "short": "Long fail",
+          "next": "sp_long"
+        },
+        {
+          "label": "Says failed, but it may still be running",
+          "short": "Unsure",
+          "next": "sp_still"
+        }
+      ]
+    },
+    "sp_ticket": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Ticket check",
+      "text": "Check the VO ticket's software and route fields",
+      "steps": [
+        "Open the VO ticket for this mission.",
+        "Confirm it has a Shipyard release or build in the expected format.",
+        "Confirm the Atlas view and goal list fields match the route exactly (format matters).",
+        "If something is missing or wrong, dispatch or the ticket owner has to fix it. Note what you found."
+      ],
+      "source": "TS: DTP-105627, DTP-111391, DTP-104028, DTP-105902",
+      "next": "sp_retry",
+      "help": "Most fast failures in past tickets were ticket setup problems, not the truck."
+    },
+    "sp_still": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Waited",
+      "text": "Let it finish before pulling again",
+      "steps": [
+        "Don't start another pull yet.",
+        "Give it a few minutes and re-check the deploy status."
+      ],
+      "source": "TS: DTP-91789, DTP-103379",
+      "next": "sp_retry",
+      "help": "Scout has shown 'SW Pull Failed' while the deploy kept running and then finished."
+    },
+    "sp_long": {
+      "type": "question",
+      "text": "Does it say to reach out to technical support?",
+      "help": "Long installs that timed out returned DEPLOY_FAILED_GET_TECHNICAL_SUPPORT. One GRPC failure at 31 minutes was cleared by a cold start and re-pull.",
+      "source": "TS: DTP-110890, DTP-111167, DTP-112058",
+      "options": [
+        {
+          "label": "Yes",
+          "short": "Tech support msg",
+          "next": "sp_esc"
+        },
+        {
+          "label": "No",
+          "short": "No message",
+          "next": "sp_cs"
+        }
+      ]
+    },
+    "sp_cs": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "CS + retry",
+      "text": "Cold start and retry the pull",
+      "steps": [
+        "TODO: platform cold-start sequence from SOP.",
+        "Wait for the truck to reconnect to the tool before doing anything else.",
+        "Start the software pull again."
+      ],
+      "source": "TS: DTP-112058 · VO site practice (Oct 2026)",
+      "next": "sp_esc",
+      "variants": [
+        {
+          "when": {
+            "platform": "volvo"
+          },
+          "steps": [
+            "TODO: Volvo cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "international"
+          },
+          "steps": [
+            "TODO: International cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "perseus"
+          },
+          "steps": [
+            "TODO: Perseus cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        }
+      ],
+      "help": "A pull that died late with a communication error re-pulled fine after a cold start (DTP-112058)."
+    },
+    "sp_retry": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Re-pulled",
+      "text": "Retry the pull once",
+      "steps": [
+        "Start the software pull one more time."
+      ],
+      "source": "TS: DTP-109186, DTP-108718",
+      "next": "sp_esc"
+    },
+    "sp_esc": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Operator-level SW pull steps are used up. Open a TS ticket and paste the handoff.",
+      "source": "ReadyPath",
+      "handoffNote": "Past causes: VO ticket missing or misformatted Shipyard release / Atlas view (dispatch fix); deploy timeouts or GRPC errors (cold start + re-pull); Scout showing failed while the deploy was still running."
+    }
+  }
+}

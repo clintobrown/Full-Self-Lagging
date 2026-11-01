@@ -1,0 +1,139 @@
+{
+  "$schema": "./schema.json",
+  "id": "triage",
+  "title": "I'm not sure",
+  "role": "triage",
+  "version": "0.2.0",
+  "status": "PLACEHOLDER",
+  "sourceDocs": [],
+  "start": "tr_stage",
+  "nodes": {
+    "tr_stage": {
+      "type": "question",
+      "text": "Where in bring-up did it stop?",
+      "source": "TODO",
+      "options": [
+        {
+          "label": "Loading software",
+          "short": "Software",
+          "next": "tr_sw"
+        },
+        {
+          "label": "Calibration",
+          "short": "Calibration",
+          "next": "tr_cal"
+        },
+        {
+          "label": "Ready-state checks",
+          "short": "Ready checks",
+          "next": "tr_ready"
+        },
+        {
+          "label": "Mission or goal setup",
+          "short": "Mission setup",
+          "next": "tr_setup"
+        },
+        {
+          "label": "Truck seems ready but won't launch",
+          "short": "Won't launch",
+          "next": "tr_launch"
+        },
+        {
+          "label": "None of these",
+          "short": "None",
+          "next": "tr_other"
+        }
+      ]
+    },
+    "tr_ready": {
+      "type": "question",
+      "text": "What do you see?",
+      "source": "TODO",
+      "options": [
+        {
+          "label": "A fault is shown",
+          "short": "Fault",
+          "next": "tr_compute"
+        },
+        {
+          "label": "Mode or state doesn't match what's expected",
+          "short": "Mismatch",
+          "next": "tr_stack"
+        },
+        {
+          "label": "Not sure",
+          "short": "Not sure",
+          "next": "tr_compute"
+        }
+      ]
+    },
+    "tr_setup": {
+      "type": "question",
+      "text": "Which part of setup?",
+      "source": "TODO",
+      "options": [
+        {
+          "label": "A TApp step shows failed",
+          "short": "TApp step",
+          "next": "tr_tapp",
+          "tools": [
+            "tapp"
+          ]
+        },
+        {
+          "label": "Scout goal list or mission config",
+          "short": "Scout goal",
+          "next": "tr_goal",
+          "tools": [
+            "scout"
+          ]
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "next": "tr_other"
+        }
+      ]
+    },
+    "tr_sw": {
+      "type": "route",
+      "text": "Software pull",
+      "tree": "sw_pull"
+    },
+    "tr_cal": {
+      "type": "route",
+      "text": "Calibration",
+      "tree": "calibration"
+    },
+    "tr_compute": {
+      "type": "route",
+      "text": "Compute / ready-state",
+      "tree": "compute_ready"
+    },
+    "tr_stack": {
+      "type": "route",
+      "text": "Stack / control state",
+      "tree": "stack_control"
+    },
+    "tr_tapp": {
+      "type": "route",
+      "text": "TApp step",
+      "tree": "tapp_step"
+    },
+    "tr_goal": {
+      "type": "route",
+      "text": "Scout goal",
+      "tree": "scout_goal"
+    },
+    "tr_launch": {
+      "type": "route",
+      "text": "Launch",
+      "tree": "launch"
+    },
+    "tr_other": {
+      "type": "route",
+      "text": "Something else",
+      "tree": "other"
+    }
+  }
+}

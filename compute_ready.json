@@ -1,0 +1,271 @@
+{
+  "$schema": "./schema.json",
+  "id": "compute_ready",
+  "title": "No ready state (compute or checklist faults)",
+  "role": "category",
+  "version": "0.4.1",
+  "status": "DRAFT",
+  "sourceDocs": [
+    "DTP TS tickets via Glean, Aug–Oct 2026"
+  ],
+  "start": "cr_where",
+  "nodes": {
+    "cr_where": {
+      "type": "question",
+      "text": "Where is the truck?",
+      "source": "TS: DTP-112417",
+      "options": [
+        {
+          "label": "Terminal or launch pad",
+          "short": "Terminal",
+          "next": "cr_checks"
+        },
+        {
+          "label": "On the road",
+          "short": "On road",
+          "next": "cr_safe"
+        }
+      ]
+    },
+    "cr_safe": {
+      "type": "question",
+      "text": "Park somewhere safe before troubleshooting.",
+      "help": "Don't troubleshoot while driving. Park per SOP first. A cold start may be needed.",
+      "source": "TS: DTP-112417",
+      "options": [
+        {
+          "label": "I'm parked somewhere safe",
+          "short": "Parked safe",
+          "next": "cr_checks"
+        }
+      ]
+    },
+    "cr_checks": {
+      "type": "question",
+      "text": "What do the failing checklists point to?",
+      "help": "Some checklists include recovery text, e.g. ACI BIST over 20 hours: '1. Cold start the system. 2. If it persists, escalate to VRE.'",
+      "source": "TS: DTP-110498, DTP-105363, DTP-106551, DTP-109224, DTP-111734",
+      "options": [
+        {
+          "label": "Checklist itself says 'cold start the system'",
+          "short": "CS instructed",
+          "next": "cr_cs"
+        },
+        {
+          "label": "Driver absent / seat belt",
+          "short": "Driver absent",
+          "next": "cr_seat"
+        },
+        {
+          "label": "LTE or connectivity",
+          "short": "LTE",
+          "next": "cr_lte"
+        },
+        {
+          "label": "Pose, localization, or breadcrumbs",
+          "short": "Pose",
+          "next": "cr_loopq"
+        },
+        {
+          "label": "PBT reset required",
+          "short": "PBT",
+          "next": "cr_pbt"
+        },
+        {
+          "label": "Something else, or many errors",
+          "short": "Other",
+          "next": "cr_cs"
+        }
+      ]
+    },
+    "cr_seat": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Belt latched",
+      "text": "Latch the seat belt, then retry ready state",
+      "steps": [
+        "Be seated with the driver's seat belt latched before requesting ready state.",
+        "Retry ready state."
+      ],
+      "source": "TS: DTP-105363",
+      "next": "cr_cs",
+      "resolvedNext": "cr_resolved"
+    },
+    "cr_lte": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Peplink cycled",
+      "text": "Cycle the Peplink, if that's a VO task where you are",
+      "steps": [
+        "Power-cycle the Peplink per SOP.",
+        "Wait for the LTE checklist to clear, then retry ready state."
+      ],
+      "source": "TS: DTP-105363, DTP-106551",
+      "next": "cr_cs",
+      "caution": "Only if Peplink cycling is an operator task in your SOP. If not, choose 'I can't do this step'.",
+      "resolvedNext": "cr_resolved"
+    },
+    "cr_loopq": {
+      "type": "question",
+      "text": "Have you driven a loop since the last cold start?",
+      "help": "A VRE reminder from DTP-109224: after any cold start, drive a loop so localization can recover.",
+      "source": "TS: DTP-109224, DTP-105933",
+      "options": [
+        {
+          "label": "Yes",
+          "short": "Looped",
+          "next": "cr_atlas"
+        },
+        {
+          "label": "No",
+          "short": "No loop",
+          "next": "cr_loop"
+        }
+      ]
+    },
+    "cr_loop": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Drove loop",
+      "text": "Drive a localization loop",
+      "steps": [
+        "Drive the approved loop in manual per SOP.",
+        "Watch whether the pose checklists clear."
+      ],
+      "source": "TS: DTP-109224, DTP-112417",
+      "next": "cr_atlas",
+      "resolvedNext": "cr_resolved"
+    },
+    "cr_atlas": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Atlas check",
+      "text": "Check the atlas setting on the VO ticket",
+      "steps": [
+        "Confirm the ticket's Atlas view matches where the truck physically is.",
+        "If it doesn't, it needs fixing before anything else will work. Note it for the VRE."
+      ],
+      "source": "TS: DTP-112429",
+      "next": "cr_cs",
+      "help": "In DTP-112429 the ticket pointed at the wrong region's atlas, so the truck couldn't localize and cold starts didn't help."
+    },
+    "cr_pbt": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "PBT reset",
+      "text": "Do the PBT reset the tool is asking for",
+      "steps": [
+        "Perform the PBT reset per SOP.",
+        "Retry ready state or the launch step."
+      ],
+      "source": "TS: DTP-111734, DTP-112726",
+      "next": "cr_esc",
+      "resolvedNext": "cr_resolved"
+    },
+    "cr_cs": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "CS + retry",
+      "text": "Cold start and retry ready state",
+      "steps": [
+        "TODO: platform cold-start sequence from SOP.",
+        "Wait for the truck to reconnect to the tool before doing anything else.",
+        "If pose checklists remain, drive a loop before calling it failed.",
+        "If TApp tasks didn't reset after the cold start, a VRE has to reset them.",
+        "Retry ready state."
+      ],
+      "source": "TS: DTP-112093, DTP-112431, DTP-109224 · VO site practice (Oct 2026)",
+      "next": "cr_cs2",
+      "variants": [
+        {
+          "when": {
+            "platform": "volvo"
+          },
+          "steps": [
+            "TODO: Volvo cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "international"
+          },
+          "steps": [
+            "TODO: International cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "perseus"
+          },
+          "steps": [
+            "TODO: Perseus cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        }
+      ],
+      "resolvedNext": "cr_resolved",
+      "help": "Most no-ready-state tickets cleared after a cold start (DTP-112093, DTP-112431, DTP-106551, DTP-105363, DTP-111299)."
+    },
+    "cr_resolved": {
+      "type": "terminal",
+      "terminal": "RESOLVED",
+      "text": "Ready state reached. Continue the mission.",
+      "source": "ReadyPath"
+    },
+    "cr_esc": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Operator-level ready-state steps are used up. Open a TS ticket and paste the handoff.",
+      "source": "ReadyPath",
+      "handoffNote": "From past tickets: faults that survive repeated cold starts usually point to hardware (BMC, disks, GNSS, safety core, radar defect) and end in service hold or a truck pivot. 'Hotstart detected' after a cold start means the cold boot failed and needs another (DTP-112726)."
+    },
+    "cr_cs2": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "2nd CS",
+      "text": "Cold start once more and retry",
+      "help": "Several tickets needed a second cold start: hotstart detected after the first, or pose/GNSS not back yet (DTP-112726, DTP-109224, DTP-105672, DTP-112417).",
+      "steps": [
+        "TODO: platform cold-start sequence from SOP.",
+        "Wait for the truck to reconnect to the tool before doing anything else.",
+        "If pose checklists remain, drive a loop before calling it failed.",
+        "If TApp tasks didn't reset after the cold start, a VRE has to reset them.",
+        "Retry ready state."
+      ],
+      "variants": [
+        {
+          "when": {
+            "platform": "volvo"
+          },
+          "steps": [
+            "TODO: Volvo cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "international"
+          },
+          "steps": [
+            "TODO: International cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "perseus"
+          },
+          "steps": [
+            "TODO: Perseus cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        }
+      ],
+      "source": "TS: DTP-112726, DTP-109224, DTP-105672, DTP-112417 · VO site practice (Oct 2026)",
+      "next": "cr_esc",
+      "resolvedNext": "cr_resolved"
+    }
+  }
+}

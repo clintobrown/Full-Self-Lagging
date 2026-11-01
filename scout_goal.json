@@ -1,0 +1,93 @@
+{
+  "$schema": "./schema.json",
+  "id": "scout_goal",
+  "title": "Scout goal setup problem",
+  "role": "category",
+  "version": "0.3.1",
+  "status": "DRAFT",
+  "sourceDocs": [
+    "DTP TS tickets via Glean, 2022–Oct 2026"
+  ],
+  "tools": [
+    "scout"
+  ],
+  "start": "sg_what",
+  "nodes": {
+    "sg_what": {
+      "type": "question",
+      "text": "What's wrong with the goals?",
+      "source": "TS: DTP-104295, DTP-105696, DTP-104901, DTP-61987",
+      "options": [
+        {
+          "label": "Goal list is empty, or a goal I need is missing",
+          "short": "Missing goal",
+          "next": "sg_ticket"
+        },
+        {
+          "label": "Showing the wrong region's goals",
+          "short": "Wrong region",
+          "next": "sg_ticket"
+        },
+        {
+          "label": "Scout shows the wrong finish line",
+          "short": "Wrong finish",
+          "next": "sg_esc_ui"
+        },
+        {
+          "label": "Goal list didn't appear after starting the stack",
+          "short": "Didn't appear",
+          "next": "sg_reload"
+        }
+      ]
+    },
+    "sg_ticket": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Ticket check",
+      "text": "Check the VO ticket's Atlas view and goal list",
+      "steps": [
+        "Confirm the Atlas view on the ticket matches the route, in the exact expected format.",
+        "Confirm the goal list name matches the Active Goal Lists page (GL name, not the display name).",
+        "Reload Scout and look again.",
+        "If the ticket is wrong, dispatch has to fix it. Note what you found."
+      ],
+      "source": "TS: DTP-104295, DTP-104862, DTP-111391, DTP-103384, DTP-28931",
+      "next": "sg_esc",
+      "help": "Most missing or wrong-region goal lists in past tickets came from VO ticket settings."
+    },
+    "sg_reload": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Reloaded",
+      "text": "Reload Scout and check before re-setting the goal",
+      "steps": [
+        "Reload Scout and check the goal list again.",
+        "Scout doesn't always show a goal list that was set remotely, so it may already be set.",
+        "If it's still blank, set the goal list per SOP."
+      ],
+      "source": "TS: DTP-61987, DTP-28931",
+      "next": "sg_esc",
+      "resolvedNext": "sg_resolved"
+    },
+    "sg_resolved": {
+      "type": "terminal",
+      "terminal": "RESOLVED",
+      "text": "Goal list is set. Continue to ready state.",
+      "source": "ReadyPath"
+    },
+    "sg_esc_ui": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Don't change the goal in Scout. Open a TS ticket and paste the handoff so a VRE can see what the goal script module shows.",
+      "source": "ReadyPath",
+      "handoffNote": "DTP-104901: Scout displayed HOU as the finish line regardless of the goal picked, while the routing system had the correct goal. The VRE asked operators not to touch the goal and escalate."
+    },
+    "sg_esc": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Operator-level goal steps are used up. Open a TS ticket and paste the handoff.",
+      "source": "ReadyPath",
+      "handoffNote": "Past causes: wrong Atlas view or goal list settings on the VO ticket (dispatch fix); after a re-pull and cold starts the truck kept the wrong atlas view (DTP-112354)."
+    }
+  }
+}

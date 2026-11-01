@@ -1,0 +1,127 @@
+{
+  "$schema": "./schema.json",
+  "id": "stack_control",
+  "title": "Stack mode or control state gap",
+  "role": "category",
+  "version": "0.4.1",
+  "status": "DRAFT",
+  "sourceDocs": [
+    "DTP TS tickets via Glean, Aug–Oct 2026"
+  ],
+  "start": "sc_what",
+  "nodes": {
+    "sc_what": {
+      "type": "question",
+      "text": "What's wrong?",
+      "source": "TS: DTP-108061, DTP-108736",
+      "options": [
+        {
+          "label": "Stack won't switch modes (e.g. to calibration)",
+          "short": "Won't switch",
+          "next": "sc_msg"
+        },
+        {
+          "label": "Control state shows UNAUTHORIZED",
+          "short": "Unauthorized",
+          "next": "sc_unauth"
+        },
+        {
+          "label": "Mode or state doesn't match what the tool expects",
+          "short": "Mismatch",
+          "next": "sc_cs"
+        }
+      ]
+    },
+    "sc_msg": {
+      "type": "question",
+      "text": "Does the tool say to get technical support?",
+      "source": "TS: DTP-108061",
+      "options": [
+        {
+          "label": "Yes",
+          "short": "Tech support msg",
+          "next": "sc_esc"
+        },
+        {
+          "label": "No",
+          "short": "No message",
+          "next": "sc_retry"
+        }
+      ]
+    },
+    "sc_retry": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Retried",
+      "text": "Retry the mode switch once",
+      "steps": [
+        "Retry the step that switches the stack."
+      ],
+      "source": "TS: DTP-108061",
+      "next": "sc_esc"
+    },
+    "sc_unauth": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "ATMS check",
+      "text": "Check the trip's status in ATMS",
+      "steps": [
+        "Look up this trip in ATMS.",
+        "If it shows Confirmed rather than Launched, the workflow needs a task reset, which is a VRE action. Note it for the handoff."
+      ],
+      "source": "TS: DTP-108736",
+      "next": "sc_esc"
+    },
+    "sc_cs": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "CS + retry",
+      "text": "Cold start and recheck",
+      "steps": [
+        "TODO: platform cold-start sequence from SOP.",
+        "Wait for the truck to reconnect to the tool before doing anything else.",
+        "Recheck stack mode and control state."
+      ],
+      "source": "TS: DTP-112431, DTP-104301 · VO site practice (Oct 2026)",
+      "next": "sc_esc",
+      "variants": [
+        {
+          "when": {
+            "platform": "volvo"
+          },
+          "steps": [
+            "TODO: Volvo cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "international"
+          },
+          "steps": [
+            "TODO: International cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "perseus"
+          },
+          "steps": [
+            "TODO: Perseus cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        }
+      ],
+      "caution": "Only put the stack in IDLE first if your SOP says to. A VRE warned that manual IDLE swaps can make things worse (DTP-109894).",
+      "help": "A stuck mode/state cleared after a cold start (DTP-112431)."
+    },
+    "sc_esc": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Operator-level stack and control-state steps are used up. Open a TS ticket and paste the handoff.",
+      "source": "ReadyPath",
+      "handoffNote": "Likely request from past tickets: task or workflow reset (ATMS showed Confirmed, not Launched), or investigation of repeated failure to switch stacks (DTP-108061)."
+    }
+  }
+}

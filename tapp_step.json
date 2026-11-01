@@ -1,0 +1,118 @@
+{
+  "$schema": "./schema.json",
+  "id": "tapp_step",
+  "title": "TApp step failed",
+  "role": "category",
+  "version": "0.3.1",
+  "status": "DRAFT",
+  "sourceDocs": [
+    "DTP TS tickets via Glean, Aug–Oct 2026"
+  ],
+  "tools": [
+    "tapp"
+  ],
+  "start": "ts_which",
+  "nodes": {
+    "ts_which": {
+      "type": "question",
+      "text": "Which TApp step failed?",
+      "source": "TS: DTP-111167, DTP-110126, DTP-108736",
+      "options": [
+        {
+          "label": "Software download",
+          "short": "SW download",
+          "next": "ts_r_sw"
+        },
+        {
+          "label": "Calibration and weighing",
+          "short": "Calibration",
+          "next": "ts_r_cal"
+        },
+        {
+          "label": "Launch vehicle",
+          "short": "Launch",
+          "next": "ts_r_launch"
+        },
+        {
+          "label": "Prepare Aurora Driver, or another step",
+          "short": "Other step",
+          "next": "ts_recovery"
+        }
+      ]
+    },
+    "ts_r_sw": {
+      "type": "route",
+      "text": "Software download",
+      "tree": "sw_pull"
+    },
+    "ts_r_cal": {
+      "type": "route",
+      "text": "Calibration",
+      "tree": "calibration"
+    },
+    "ts_r_launch": {
+      "type": "route",
+      "text": "Launch",
+      "tree": "launch"
+    },
+    "ts_recovery": {
+      "type": "question",
+      "text": "What recovery action does the error show?",
+      "help": "TApp errors carry an instruction (RETRY_STEP, RETRY_TASK, DO_NOT_RETRY) and a recovery action (RESET_PBT, REQUEST_SUPPORT, GET_TECHNICAL_SUPPORT). Follow what it says.",
+      "source": "TS: DTP-111734, DTP-108736, DTP-110239",
+      "options": [
+        {
+          "label": "Retry step / retry task",
+          "short": "Retry",
+          "next": "ts_retry"
+        },
+        {
+          "label": "Reset PBT",
+          "short": "Reset PBT",
+          "next": "ts_pbt"
+        },
+        {
+          "label": "Request support / get technical support",
+          "short": "Support",
+          "next": "ts_esc"
+        },
+        {
+          "label": "Do not retry, or nothing shown",
+          "short": "No retry",
+          "next": "ts_esc"
+        }
+      ]
+    },
+    "ts_retry": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Retried",
+      "text": "Retry the step once",
+      "steps": [
+        "Retry the failed step from TApp, once."
+      ],
+      "source": "TS: DTP-108736",
+      "next": "ts_esc"
+    },
+    "ts_pbt": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "PBT reset",
+      "text": "Do the PBT reset TApp is asking for",
+      "steps": [
+        "Perform the PBT reset per SOP.",
+        "Retry the step."
+      ],
+      "source": "TS: DTP-111734, DTP-108520",
+      "next": "ts_esc",
+      "help": "After a PBT reset the failed task may still need a reset, which a VRE does remotely."
+    },
+    "ts_esc": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Operator-level TApp steps are used up. Open a TS ticket and paste the handoff.",
+      "source": "ReadyPath",
+      "handoffNote": "Likely request from past tickets: reset the failed task. Errors seen: ACTUAL_SOFTWARE_NOT_OF_RELEASE (ticket/software mismatch), SOFTWARE_DEPLOY_ONGOING (TApp thinks a deploy is still running)."
+    }
+  }
+}

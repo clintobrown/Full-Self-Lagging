@@ -1,0 +1,145 @@
+{
+  "$schema": "./schema.json",
+  "id": "launch",
+  "title": "Launch issue",
+  "role": "category",
+  "version": "0.4.1",
+  "status": "DRAFT",
+  "sourceDocs": [
+    "DTP TS tickets via Glean, Jun–Oct 2026"
+  ],
+  "start": "ln_err",
+  "nodes": {
+    "ln_err": {
+      "type": "question",
+      "text": "What does the launch step show?",
+      "source": "TS: DTP-111734, DTP-100634, DTP-111048, DTP-110239, DTP-108736, DTP-104301",
+      "options": [
+        {
+          "label": "PBT reset required",
+          "short": "PBT",
+          "next": "ln_pbt"
+        },
+        {
+          "label": "Engage not confirmed, or launch timed out",
+          "short": "Timed out",
+          "next": "ln_esc_reset"
+        },
+        {
+          "label": "Authorization is stale",
+          "short": "Stale auth",
+          "next": "ln_esc_reset"
+        },
+        {
+          "label": "Software deployment in progress",
+          "short": "Deploy ongoing",
+          "next": "ln_deploy"
+        },
+        {
+          "label": "Software not of release / permission check",
+          "short": "Wrong SW",
+          "next": "ln_ticket"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "next": "ln_cs"
+        }
+      ]
+    },
+    "ln_pbt": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "PBT reset",
+      "text": "Do the PBT reset, then retry launch",
+      "steps": [
+        "Perform the PBT reset per SOP.",
+        "Retry the launch step."
+      ],
+      "source": "TS: DTP-111734, DTP-108520, DTP-105658",
+      "next": "ln_esc_reset",
+      "help": "If launch still won't proceed after the PBT reset, the launch task needs a reset from a VRE."
+    },
+    "ln_deploy": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Pull checked",
+      "text": "Confirm the software pull actually finished",
+      "steps": [
+        "Check the software pull status in your tool.",
+        "If it finished, the launch task still thinks a deploy is running. That needs a VRE."
+      ],
+      "source": "TS: DTP-110239",
+      "next": "ln_esc"
+    },
+    "ln_ticket": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Ticket check",
+      "text": "Check the software on the VO ticket",
+      "steps": [
+        "Confirm the ticket's Shipyard release matches the software you pulled.",
+        "If it doesn't, dispatch or the ticket owner has to fix it."
+      ],
+      "source": "TS: DTP-108736",
+      "next": "ln_esc"
+    },
+    "ln_cs": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "CS + retry",
+      "text": "Cold start and retry launch",
+      "steps": [
+        "TODO: platform cold-start sequence from SOP.",
+        "Wait for the truck to reconnect to the tool before doing anything else.",
+        "Step back through TApp and retry the launch."
+      ],
+      "source": "TS: DTP-104301 · VO site practice (Oct 2026)",
+      "next": "ln_esc",
+      "variants": [
+        {
+          "when": {
+            "platform": "volvo"
+          },
+          "steps": [
+            "TODO: Volvo cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "international"
+          },
+          "steps": [
+            "TODO: International cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "perseus"
+          },
+          "steps": [
+            "TODO: Perseus cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        }
+      ],
+      "caution": "Follow SOP for any vehicle state change before launch.",
+      "help": "A vehicle command error on launch cleared with stack to IDLE, cold start, and retry (DTP-104301)."
+    },
+    "ln_esc_reset": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "The launch task needs a reset, which only a VRE can do. Open a TS ticket and paste the handoff.",
+      "source": "ReadyPath",
+      "handoffNote": "Likely request: reset the LAUNCH_VEHICLE task. Past causes: engage not confirmed in time after arming (DTP-100634), authorization nonce about 30 min old (DTP-111048). Operator will engage promptly after the reset."
+    },
+    "ln_esc": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Operator-level launch steps are used up. Open a TS ticket and paste the handoff.",
+      "source": "ReadyPath"
+    }
+  }
+}

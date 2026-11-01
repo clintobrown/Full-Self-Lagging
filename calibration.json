@@ -1,0 +1,204 @@
+{
+  "$schema": "./schema.json",
+  "id": "calibration",
+  "title": "Calibration failure",
+  "role": "category",
+  "version": "0.4.1",
+  "status": "DRAFT",
+  "sourceDocs": [
+    "DTP TS tickets via Glean, Sep–Oct 2026"
+  ],
+  "start": "cal_screen",
+  "nodes": {
+    "cal_screen": {
+      "type": "question",
+      "text": "What does the calibration result show?",
+      "help": "Fast failures right after bring-up have been traced to timing (PTP) problems that a cold start cleared (DTP-97082).",
+      "source": "TS: DTP-110126, DTP-97082, DTP-108061",
+      "options": [
+        {
+          "label": "Failed, and names a sensor",
+          "short": "Sensor named",
+          "next": "cal_sensor"
+        },
+        {
+          "label": "Failed almost immediately",
+          "short": "Failed fast",
+          "next": "cal_cs"
+        },
+        {
+          "label": "Still running or buffering far too long",
+          "short": "Stuck",
+          "next": "cal_stuck"
+        },
+        {
+          "label": "Failed with no detail",
+          "short": "No detail",
+          "next": "cal_retry"
+        }
+      ]
+    },
+    "cal_sensor": {
+      "type": "question",
+      "text": "What kind of failure is it?",
+      "source": "TS: DTP-110126, DTP-107987, DTP-110823",
+      "options": [
+        {
+          "label": "One camera or lidar failed",
+          "short": "One sensor",
+          "next": "cal_clean"
+        },
+        {
+          "label": "Several sensors found no targets",
+          "short": "No targets",
+          "next": "cal_setup"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "next": "cal_retry"
+        }
+      ]
+    },
+    "cal_clean": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Cleaned + rerun",
+      "text": "Clean the failed sensor, then re-run calibration once",
+      "steps": [
+        "Clean the sensor named in the failure per your sensor-cleaning SOP.",
+        "Check nothing is blocking that sensor or the calibration targets.",
+        "Re-run calibration from the tool."
+      ],
+      "source": "TS: DTP-110823, DTP-110126, DTP-107987",
+      "next": "cal_cs",
+      "caution": "Follow SOP for any work outside the cab.",
+      "resolvedNext": "cal_resolved"
+    },
+    "cal_setup": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Setup + rerun",
+      "text": "Check the setup, clean, and re-run once",
+      "steps": [
+        "Confirm the truck is positioned and driven exactly as the calibration procedure requires.",
+        "Confirm the calibration targets are visible and unobstructed.",
+        "Clean every sensor listed in the failure.",
+        "Re-run calibration."
+      ],
+      "source": "TS: DTP-107987",
+      "next": "cal_cs",
+      "help": "A VRE noted no-target failures usually mean bad data collection: sensors not booted, wrong drive pattern, or blocked sensors or targets.",
+      "caution": "Follow SOP for any work outside the cab.",
+      "resolvedNext": "cal_resolved"
+    },
+    "cal_stuck": {
+      "type": "question",
+      "text": "Does the tool tell you to get technical support?",
+      "help": "In DTP-108061 the stack repeatedly failed to switch to calibration with DEPLOY_FAILED_GET_TECHNICAL_SUPPORT; cold starts and retries didn't fix it.",
+      "source": "TS: DTP-108061",
+      "options": [
+        {
+          "label": "Yes",
+          "short": "Tech support msg",
+          "next": "cal_esc"
+        },
+        {
+          "label": "No",
+          "short": "No message",
+          "next": "cal_retry"
+        }
+      ]
+    },
+    "cal_retry": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Re-ran cal",
+      "text": "Re-run calibration once",
+      "steps": [
+        "Re-run calibration from the tool and watch which sensors fail."
+      ],
+      "source": "TS: DTP-110126, DTP-107987",
+      "next": "cal_cs",
+      "variants": [
+        {
+          "when": {
+            "tool": "scout"
+          },
+          "steps": [
+            "TODO: Scout steps to re-run calibration.",
+            "Note which sensors fail."
+          ]
+        },
+        {
+          "when": {
+            "tool": "tapp"
+          },
+          "steps": [
+            "TODO: TApp steps to re-run calibration.",
+            "Note which sensors fail."
+          ]
+        }
+      ],
+      "resolvedNext": "cal_resolved"
+    },
+    "cal_cs": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "CS + retry",
+      "text": "Cold start and retry calibration",
+      "steps": [
+        "TODO: platform cold-start sequence from SOP.",
+        "Wait for the truck to reconnect to the tool before doing anything else.",
+        "If the tool still shows the old calibration state, stop: clearing the calibration concern or resetting tasks is a VRE action (DTP-110823).",
+        "Re-run calibration."
+      ],
+      "source": "TS: DTP-97082, DTP-110126, DTP-110823 · VO site practice (Oct 2026)",
+      "next": "cal_esc",
+      "variants": [
+        {
+          "when": {
+            "platform": "volvo"
+          },
+          "steps": [
+            "TODO: Volvo cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "international"
+          },
+          "steps": [
+            "TODO: International cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {
+            "platform": "perseus"
+          },
+          "steps": [
+            "TODO: Perseus cold-start sequence from SOP.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        }
+      ],
+      "resolvedNext": "cal_resolved",
+      "help": "In past TS tickets the VRE's next call here was a cold start; it cleared fast failures (DTP-97082) and repeat sensor failures that passed on retry after (DTP-110126)."
+    },
+    "cal_resolved": {
+      "type": "terminal",
+      "terminal": "RESOLVED",
+      "text": "Calibration passed. Continue bringing the truck to ready state.",
+      "source": "ReadyPath"
+    },
+    "cal_esc": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Operator-level calibration steps are used up. Open a TS ticket and paste the handoff.",
+      "source": "ReadyPath",
+      "handoffNote": "From past tickets: the VRE may need to clear the calibration concern or reset tasks, check whether the same sensor keeps failing, and decide whether to continue in SVO or pivot to another truck."
+    }
+  }
+}
