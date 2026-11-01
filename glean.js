@@ -1,4 +1,4 @@
-// Truck history from Glean. When a run starts, searches Glean for the truck's recent
+// Truck history from Glean, opened from the "Truck history" button (no auto-open, so it doesn't cover the recent tickets box). Searches Glean for the truck's recent
 // DTP tickets. If the operator isn't signed into Glean, Glean's own sign-in prompt
 // shows inside the panel. Lives outside #app so render() doesn't wipe it each step.
 (function(){
@@ -28,7 +28,7 @@
   function build(){
     if (panel) return;
     var st = document.createElement('style');
-    st.textContent = '#gl-panel{position:fixed;left:0;right:0;bottom:0;height:72vh;z-index:20;background:var(--bg);border-top:2px solid var(--neon,#39ff88);box-shadow:0 -8px 30px rgba(0,0,0,.5);display:flex;flex-direction:column}'
+    st.textContent = '#gl-panel{position:fixed;left:0;right:0;bottom:0;height:50vh;z-index:20;background:var(--bg);border-top:2px solid var(--neon,#39ff88);box-shadow:0 -8px 30px rgba(0,0,0,.5);display:flex;flex-direction:column}'
     + '#gl-panel[hidden],#gl-fab[hidden],#gl-msg[hidden]{display:none}'
     + '.gl-head{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line)}'
     + '.gl-head b{flex:1;font-size:18px;color:var(--neon,#39ff88)}'
@@ -72,7 +72,7 @@
     build();
     var t = truckId();
     if (!t) { panel.hidden = true; fab.hidden = true; autoFor = null; return; }
-    if (t !== autoFor) { autoFor = t; open(); }
+    if (t !== autoFor) { autoFor = t; hide(); }
     else if (panel.hidden) fab.hidden = false;
   }
   new MutationObserver(tick).observe($('app'), { childList: true, subtree: true });
