@@ -3,7 +3,7 @@
   "id": "other",
   "title": "Something else",
   "role": "category",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, 2022–Oct 2026"
@@ -51,7 +51,7 @@
     "ot_msg": {
       "type": "question",
       "text": "Does the tool show an error with a recovery action?",
-      "help": "Errors and checklists often say what to do: retry, reset PBT, cold start, or get support. Follow what it says.",
+      "help": "Errors and checklists often say what to do: retry, cold start, or get support (Peterbilt: reset PBT). Follow what it says.",
       "source": "TS: DTP-111734, DTP-110498, DTP-110890",
       "options": [
         {
@@ -62,6 +62,7 @@
         {
           "label": "Reset PBT",
           "short": "Says PBT",
+          "platforms": ["peterbilt"],
           "next": "ot_pbt"
         },
         {
