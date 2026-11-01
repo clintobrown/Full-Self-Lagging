@@ -31,3 +31,14 @@ Open the app's **Trees** screen. A tree with errors is not loaded and its errors
 
 ## Deploying
 Push the folder to GitHub Pages (or any https host), open it once on the tablet with signal, and it works offline after that. Tree edits reach the tablet the next time it loads with signal. If you change `index.html`, bump `CACHE` in `sw.js`. Without hosting, open `index.html` directly and use **Trees → Import tree files** to load the JSON from the tablet's storage.
+
+
+## Jira checkpoint (recent truck tickets)
+recent.js shows the truck's last 5 DTP tickets in purple under the "From past TS tickets" banner, read from tickets/<truck-id>.json (lowercase truck id, e.g. tickets/alts1-00009.json). If the file is missing or its updated date is more than 24h old, the box shows a Jira checkpoint prompt and an "Open last tickets in Jira" link.
+
+To refresh during TS:
+Step 1: Finish intake (truck, trailer, tool, platform, symptom).  
+Step 2: Log into Jira (jira.int.aurora.tech) yourself.  
+Step 3: Search: project = DTP AND summary ~ "<truck-id>" ORDER BY created DESC  
+Step 4: For the newest 5, record key, date, discrepancy and resolution (leave resolution empty if none; the app shows "No resolution recorded").  
+Step 5: Update tickets/<truck-id>.json with those 5 and set updated to the current date/time (ISO, e.g. 2026-11-01T14:30:00). No CACHE bump needed for ticket files.
