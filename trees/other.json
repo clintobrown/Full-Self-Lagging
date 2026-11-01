@@ -3,7 +3,7 @@
   "id": "other",
   "title": "Something else",
   "role": "category",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, 2022–Oct 2026"
@@ -156,7 +156,7 @@
             "platform": "peterbilt"
           },
           "steps": [
-            "If a mission is running, stop the mission. Stopping it takes the stack to idle.", "Note: on Peterbilt, opening doors or turning on lights during a cold start can sometimes cause issues. Avoid it if possible.", "Perform System Shut Down.", "Apply parking brake and place transmission in Neutral.", "Swap stack to idle via TAPP or Scout.", "Once the stack is idle, remove logging disks if needed.", "Turn ignition key OFF.", "If on shore power: turn the shore power unit switch OFF and disconnect shore power from the vehicle.", "Wait a minimum of 2 minutes.", "Perform System Start Up.", "Press the DBW Disconnect switch.", "Start the engine. If on shore power: plug in shore power and turn the key to ON for 5 seconds.", "Immediately release the DBW Disconnect button and ensure it is in the up/released position.", "Wait for both PWR indicators on the LSI to slow-blink green.", "Press the Compute Power Button for 1 second. PWR indicators fast-blink green, then burn steadily.", "If the system takes more than 10 minutes to boot, consult VRE.", "FG2.1 only: perform the TBS check.", "Swap to AV stack via TAPP or Scout.",
+            "Perform System Shut Down.", "Apply parking brake and place transmission in Neutral.", "Swap stack to idle via TAPP or Scout.", "Turn ignition key OFF.", "If on shore power: turn the shore power unit switch OFF and disconnect shore power from the vehicle.", "Wait a minimum of 2 minutes.", "Perform System Start Up.", "Press the DBW Disconnect switch.", "Start the engine. If on shore power: plug in shore power and turn the key to ON for 5 seconds.", "Immediately release the DBW Disconnect button and ensure it is in the up/released position.", "Wait for both PWR indicators on the LSI to slow-blink green.", "Press the Compute Power Button for 1 second. PWR indicators fast-blink green, then burn steadily.", "If the system takes more than 10 minutes to boot, consult VRE.", "FG2.1 only: perform the TBS check.", "Swap to AV stack via TAPP or Scout.",
             "Wait for the truck to reconnect to the tool before doing anything else.",
             "Retry whatever was blocked."
           ]
