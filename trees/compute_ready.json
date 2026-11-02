@@ -3,7 +3,7 @@
   "id": "compute_ready",
   "title": "No ready state (compute or checklist faults)",
   "role": "category",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, Aug–Oct 2026"
@@ -39,7 +39,7 @@
           "next": "cr_checks"
         }
       ]
-    }, "cr_tapp": { "type": "question", "text": "Check these. Are they all good?", "help": "Seat belt latched · DBW switch up/released · Compute power LED steady green · Truck shows connected in TApp · Loop driven since the last cold start", "source": "TS: DTP-105363, DTP-109224, DTP-112417", "options": [ { "label": "Yes, all good", "short": "All good", "next": "cr_cs" }, { "label": "No, something was off", "short": "Something off", "next": "cr_fix" }, { "label": "It's asking for a PBT reset", "short": "PBT", "platforms": ["peterbilt"], "next": "cr_pbt" } ] }, "cr_fix": { "type": "action", "authorizedRole": "VO", "short": "Fixed it", "text": "Fix what was off, then retry ready state", "steps": ["Latch the belt, put the DBW switch up, wait for the compute LED to go steady and the truck to reconnect, or drive a loop in manual per SOP.", "Retry ready state."], "source": "TS: DTP-105363, DTP-109224, DTP-112417", "next": "cr_cs", "resolvedNext": "cr_resolved" },
+    }, "cr_tapp": { "type": "action", "authorizedRole": "VO", "text": "Please perform the following:", "short": "TApp steps", "doneLabel": "Steps Completed", "steps": ["Verify the compute power LEDs are illuminated and steady green.", "Press the DBW Switch in, then twist to release it and verify the DBW button has fully come out and is no longer depressed.", "Open and close the side compartment door on the passenger side ensuring it fully latches. Do this even if the 'Side Compartment Open' indicator light is not illuminated on the dash. Then open and close both the passenger door and driver side door ensuring they are both fully closed.", "Unbuckle the driver's seat belt and then buckle it again ensuring the seat belt is fully locked and engaged in the seat buckle.", "Drive a loop to ensure you have pose.", "Once you have completed these steps, hit 'Steps Completed'."], "source": "TS: DTP-105363, DTP-109224, DTP-111974, DTP-112417", "next": "cr_tapp_pbt", "resolvedNext": "cr_resolved" }, "cr_tapp_pbt": { "type": "question", "text": "Is it asking for a PBT reset?", "platforms": ["peterbilt"], "skipTo": "cr_cs", "source": "TS: DTP-112417", "options": [{ "label": "Yes", "short": "PBT ask", "next": "cr_pbt" }, { "label": "No", "short": "No PBT", "next": "cr_cs" }] },
     "cr_checks": {
       "type": "question",
       "text": "In Scout, which checklist items are failing?", "help": "Open the checklist view in Scout and look for the failing (red) items.", "tools": ["scout"], "skipTo": "cr_tapp",
