@@ -3,7 +3,7 @@
   "id": "compute_ready",
   "title": "No ready state (compute or checklist faults)",
   "role": "category",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, Aug–Oct 2026"
@@ -39,7 +39,7 @@
           "next": "cr_checks"
         }
       ]
-    }, "cr_tapp": { "type": "question", "text": "TApp doesn't show checklists, so start with what you can check. Is the driver's seat belt latched?", "help": "Most past no-ready-state tickets cleared with a belt check, a loop, or a cold start.", "source": "TS: DTP-105363, DTP-109224, DTP-112417", "options": [ { "label": "No, it's not latched", "short": "Belt off", "next": "cr_seat" }, { "label": "Yes, it's latched", "short": "Belt on", "next": "cr_loopq" }, { "label": "TApp or the truck is asking for a PBT reset", "short": "PBT", "platforms": ["peterbilt"], "next": "cr_pbt" } ] },
+    }, "cr_tapp": { "type": "question", "text": "Check these. Are they all good?", "help": "Seat belt latched · DBW switch up/released · Compute power LED steady green · Truck shows connected in TApp · Loop driven since the last cold start", "source": "TS: DTP-105363, DTP-109224, DTP-112417", "options": [ { "label": "Yes, all good", "short": "All good", "next": "cr_cs" }, { "label": "No, something was off", "short": "Something off", "next": "cr_fix" }, { "label": "It's asking for a PBT reset", "short": "PBT", "platforms": ["peterbilt"], "next": "cr_pbt" } ] }, "cr_fix": { "type": "action", "authorizedRole": "VO", "short": "Fixed it", "text": "Fix what was off, then retry ready state", "steps": ["Latch the belt, put the DBW switch up, wait for the compute LED to go steady and the truck to reconnect, or drive a loop in manual per SOP.", "Retry ready state."], "source": "TS: DTP-105363, DTP-109224, DTP-112417", "next": "cr_cs", "resolvedNext": "cr_resolved" },
     "cr_checks": {
       "type": "question",
       "text": "In Scout, which checklist items are failing?", "help": "Open the checklist view in Scout and look for the failing (red) items.", "tools": ["scout"], "skipTo": "cr_tapp",
