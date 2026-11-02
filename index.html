@@ -574,7 +574,7 @@ function runBody(){
       <h1 class="q">${esc(v.text)}</h1>
       ${(v.steps||[]).length?`<ol class="steps">${v.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}
       ${v.caution?`<div class="caution">${esc(v.caution)}</div>`:''}</div></section>
-      <div class="answers"><button class="btn sig" data-act="done">Done, I did this</button><button class="btn sm" data-act="cant">I can't do this step</button></div>`;
+      <div class="answers"><button class="btn sig" data-act="done">${esc(v.doneLabel||'Done, I did this')}</button><button class="btn sm" data-act="cant">I can't do this step</button></div>`;
   }
   if(n.type==='terminal' && n.terminal==='RESOLVED'){
     return `<div class="term ok">Resolved<small>${esc(v.text)}</small></div>
