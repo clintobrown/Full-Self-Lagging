@@ -3,7 +3,7 @@
   "id": "compute_ready",
   "title": "No ready state (compute or checklist faults)",
   "role": "category",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, Aug–Oct 2026"
@@ -39,10 +39,10 @@
           "next": "cr_checks"
         }
       ]
-    },
+    }, "cr_tapp": { "type": "question", "text": "TApp doesn't show checklists, so start with what you can check. Is the driver's seat belt latched?", "help": "Most past no-ready-state tickets cleared with a belt check, a loop, or a cold start.", "source": "TS: DTP-105363, DTP-109224, DTP-112417", "options": [ { "label": "No, it's not latched", "short": "Belt off", "next": "cr_seat" }, { "label": "Yes, it's latched", "short": "Belt on", "next": "cr_loopq" }, { "label": "TApp or the truck is asking for a PBT reset", "short": "PBT", "platforms": ["peterbilt"], "next": "cr_pbt" } ] },
     "cr_checks": {
       "type": "question",
-      "text": "What do the failing checklists point to?",
+      "text": "In Scout, which checklist items are failing?", "help": "Open the checklist view in Scout and look for the failing (red) items.", "tools": ["scout"], "skipTo": "cr_tapp",
       "source": "TS: DTP-110498, DTP-105363, DTP-106551, DTP-109224, DTP-111734",
       "options": [
         {
