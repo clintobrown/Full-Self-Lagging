@@ -554,10 +554,10 @@ function vehField(kind){
 }
 function entryBody(){
   const su=S.setup, f=S.flag;
-  const cats = S.order.map(id=>S.trees[id]).filter(t=>(t.role||'category')==='category'
+  const cats = S.order.map(id=>S.trees[id]).filter(t=>t.id==='tapp_step'
     && (!su.tool || !t.tools || t.tools.includes(su.tool))
     && (!su.platform || !t.platforms || t.platforms.includes(su.platform)));
-  const triage = S.order.map(id=>S.trees[id]).find(t=>t.role==='triage');
+  const triage = null;
   const seqs = S.order.map(id=>S.trees[id]).filter(t=>t.role==='sequence');
   const bad = S.reports.filter(r=>r.errors.length).length;
   const r = S.resume;
@@ -574,7 +574,7 @@ function entryBody(){
   <div class="field-label ${f&&!su.platform?'miss':''}">Platform</div>
   <div class="seg">${S.platforms.map(p=>`<button class="btn sm ${su.platform===p.id?'sel':''}" data-act="plat" data-arg="${esc(p.id)}" aria-pressed="${su.platform===p.id}">${esc(p.label)}</button>`).join('')}</div>
   ${seqs.length?`<h2>Launching?</h2><div class="list">${seqs.map(t=>`<button class="btn sig" data-act="start" data-arg="${esc(t.id)}">${esc(t.title)}${t.status!=='VERIFIED'?`<span class="tag">${esc(t.status||'PLACEHOLDER')}</span>`:''}</button>`).join('')}</div>`:''}
-  <h2>What's keeping it from ready state?</h2>
+  <h2>Troubleshoot</h2>
   ${cats.length || triage ? '' : `<div class="banner"><b>No fault trees loaded.</b><span class="help">${esc(S.src)}. Import the .json files from the trees folder to use the app offline.</span><button class="btn sm pri" data-act="import">Import tree files</button></div>`}
   <div class="list">
     ${cats.map(t=>`<button class="btn ans" data-act="start" data-arg="${esc(t.id)}">${esc(t.title)}${t.status!=='VERIFIED'?`<span class="tag">${esc(t.status||'PLACEHOLDER')}</span>`:''}</button>`).join('')}
