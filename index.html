@@ -82,6 +82,13 @@ textarea{width:100%;min-height:96px;border:3px solid var(--line);border-radius:1
 .ph{background:repeating-linear-gradient(-45deg,#ffc600 0 12px,#000 12px 24px);padding:5px;border-radius:10px}
 .ph div{background:#ffc600;color:#000;border-radius:6px;padding:8px 12px;font-size:17px;font-weight:800}
 .src{font-size:16px;color:var(--sub);margin:0}
+details.src summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:800}
+details.src p{margin:4px 0 0}
+.done{border:3px solid var(--ok);border-left-width:10px;border-radius:10px;padding:8px 12px;font-size:19px;background:var(--card)}
+.done b{display:block;font-size:15px;color:var(--ok)}
+.badge{align-self:flex-start;font-size:15px;font-weight:900;border:2px solid #000;border-radius:6px;padding:2px 8px;background:var(--sig);color:#000}
+.btn.stop{letter-spacing:.02em;margin-top:8px}
+.o.ESCALATE_TS,.o.ESCALATE_DISPATCH{background:var(--bad);color:var(--bad-fg);border-color:var(--bad)}
 .draft{border:3px solid var(--line);border-left-width:10px;border-radius:10px;padding:8px 12px;font-size:17px;background:var(--card)}
 
 /* action card: the one loud element */
@@ -113,7 +120,7 @@ pre.sum{white-space:pre-wrap;word-break:break-word;margin:0;font:600 16px/1.45 "
 .tree ul{margin:0;padding-left:22px;font-size:16px}
 .err{color:var(--bad);font-weight:800} .warn{color:var(--sub)}
 
-.bar{position:sticky;bottom:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:4px solid var(--line);background:var(--bg);z-index:5}
+.bar{position:sticky;bottom:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:4px solid var(--line);background:var(--bg);z-index:5}
 .bar .btn{min-height:64px;font-size:20px}
 
 .sheet{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
@@ -197,9 +204,12 @@ const toolLabel = id => (S.tools.find(t=>t.id===id)||{label:id}).label;
 const platLabel = id => (S.platforms.find(p=>p.id===id)||{label:id}).label;
 
 /*VALIDATOR-START*/
+const ESC = ['ESCALATE_VRE','ESCALATE_TS','ESCALATE_DISPATCH'];
+const isEsc = t => ESC.includes(t);
+const ESC_LABEL = { ESCALATE_VRE:'Escalate to VRE', ESCALATE_TS:'Open a TS thread', ESCALATE_DISPATCH:'Contact Dispatch' };
 const SAFETY_RE = /\b(bypass\w*|override\w*|defeat\w*|jumper\w*|disable\w*\s+(?:the\s+)?(?:interlock|safety|check|alarm|e-?stop)\w*|ignore\w*\s+(?:the\s+|any\s+)?(?:fault|warning|alarm|interlock|check)\w*|skip\w*\s+(?:the\s+)?(?:check|checklist|sop|inspection|pre-?trip)\w*)\b/i;
 function nodeTexts(n){
-  const out=[n.text,n.help,n.caution,n.handoffNote,n.placeholder,...(n.steps||[]),...(n.options||[]).map(o=>o.label)];
+  const out=[n.text,n.help,n.caution,n.handoffNote,n.placeholder,n.done_when,...(n.steps||[]),...(n.options||[]).map(o=>o.label)];
   (n.variants||[]).forEach(v=>out.push(v.text,v.help,v.caution,...(v.steps||[])));
   return out.filter(Boolean);
 }
@@ -207,7 +217,7 @@ function validateTree(t, knownIds){
   const E=[], W=[]; let placeholders=0, drafts=0;
   if(!t || typeof t!=='object' || Array.isArray(t)) return {errors:['File is not a tree object'],warnings:[],placeholders:0};
   ['id','title','version','start','nodes'].forEach(k=>{ if(t[k]==null) E.push(`Missing "${k}"`); });
-  if(t.role && !['category','triage'].includes(t.role)) E.push('role must be "category" or "triage"');
+  if(t.role && !['category','triage','sequence'].includes(t.role)) E.push('role must be "category", "triage" or "sequence"');
   if(t.status && !['PLACEHOLDER','DRAFT','VERIFIED'].includes(t.status)) E.push('status must be PLACEHOLDER, DRAFT or VERIFIED');
   const N = (t.nodes && typeof t.nodes==='object') ? t.nodes : {};
   const has = id => typeof id==='string' && Object.prototype.hasOwnProperty.call(N,id);
@@ -221,15 +231,21 @@ function validateTree(t, knownIds){
     if(n.skipTo && !has(n.skipTo)) E.push(`${at} skipTo "${n.skipTo}" doesn't exist`);
     if(n.type==='question'){
       if(!Array.isArray(n.options)||!n.options.length) E.push(`${at} question needs at least one option`);
-      else n.options.forEach((o,i)=>{ if(!o.label) E.push(`${at} option ${i+1} has no label`); if(!has(o.next)) E.push(`${at} option ${i+1} next "${o.next}" doesn't exist`); });
+      else n.options.forEach((o,i)=>{ if(!o.label) E.push(`${at} option ${i+1} has no label`); if(!has(o.next)) E.push(`${at} option ${i+1} next "${o.next}" doesn't exist`);
+        if(o.type && !['success','fail','stop'].includes(o.type)) E.push(`${at} option ${i+1} type must be success, fail or stop`);
+        if(o.type && String(o.label).trim().split(/\s+/).length>6) W.push(`${at} button "${o.label}" is over 6 words`); });
+      if(n.done_when){ const f=(n.options||[]).filter(o=>o.type==='fail' && !/^something else$/i.test(o.label)).length;
+        if(f>5) W.push(`${at} has ${f} failure buttons; max is 5 plus Something else`);
+        if(!(n.options||[]).some(o=>o.type==='stop')) W.push(`${at} card has no STOP button`); }
     }
     if(n.type==='action'){
       if(n.authorizedRole!=='VO') E.push(`${at} authorizedRole must be "VO". Work a VO isn't authorized to do belongs behind ESCALATE_VRE`);
       if(!Array.isArray(n.steps)||!n.steps.length) E.push(`${at} action needs steps`);
       if(!has(n.next)) E.push(`${at} next (not-resolved path) "${n.next}" doesn't exist`);
-      if(n.resolvedNext && !(has(n.resolvedNext) && N[n.resolvedNext].type==='terminal' && N[n.resolvedNext].terminal==='RESOLVED')) E.push(`${at} resolvedNext must point to a RESOLVED terminal`);
+      if(n.resolvedNext && !has(n.resolvedNext)) E.push(`${at} resolvedNext "${n.resolvedNext}" doesn't exist`);
     }
-    if(n.type==='terminal' && !['RESOLVED','ESCALATE_VRE'].includes(n.terminal)) E.push(`${at} terminal must be RESOLVED or ESCALATE_VRE`);
+    if(n.type==='terminal' && !['RESOLVED',...ESC].includes(n.terminal)) E.push(`${at} terminal must be RESOLVED, ${ESC.join(', ')}`);
+    if(n.type==='route' && n.returnTo && !has(n.returnTo)) E.push(`${at} returnTo "${n.returnTo}" doesn't exist`);
     if(n.type==='route'){
       if(!n.tree) E.push(`${at} route needs "tree"`);
       else if(knownIds && !knownIds.includes(n.tree)) W.push(`${at} routes to "${n.tree}", which isn't loaded`);
@@ -239,20 +255,22 @@ function validateTree(t, knownIds){
     for(const s of nodeTexts(n)){ const m=String(s).match(SAFETY_RE); if(m) E.push(`${at} safety lint: "${m[0]}". No step may bypass a safety check, interlock, or SOP. Reword or remove.`); }
   }
   // reachability, escalation path, cycles
-  const edges = id => { const n=N[id]; if(!n) return []; const e=[];
+  // fwd=true leaves out the edges that resume a sequence (resolvedNext, returnTo); those loop back on purpose
+  const edges = (id,fwd) => { const n=N[id]; if(!n) return []; const e=[];
     if(n.skipTo) e.push(n.skipTo);
     if(n.type==='question') (n.options||[]).forEach(o=>e.push(o.next));
-    if(n.type==='action'){ e.push(n.next); if(n.resolvedNext) e.push(n.resolvedNext); }
+    if(n.type==='action'){ e.push(n.next); if(n.resolvedNext && !fwd) e.push(n.resolvedNext); }
     if(n.type==='input') e.push(n.next);
+    if(n.type==='route' && n.returnTo && !fwd) e.push(n.returnTo);
     return e.filter(has); };
   if(has(t.start)){
     const seen=new Set([t.start]), q=[t.start];
     while(q.length){ edges(q.shift()).forEach(x=>{ if(!seen.has(x)){ seen.add(x); q.push(x); } }); }
     Object.keys(N).forEach(id=>{ if(!seen.has(id)) W.push(`[${id}] is unreachable from start`); });
-    const canEsc=[...seen].some(id=>N[id].type==='terminal'&&N[id].terminal==='ESCALATE_VRE') || [...seen].some(id=>N[id].type==='route');
-    if(!canEsc) E.push('No path reaches ESCALATE_VRE. Every tree must end in a VRE handoff when operator fixes run out.');
+    const canEsc=[...seen].some(id=>N[id].type==='terminal'&&isEsc(N[id].terminal)) || [...seen].some(id=>N[id].type==='route');
+    if(!canEsc) E.push('No path reaches an escalation. Every tree must end in a VRE, TS or Dispatch handoff when operator fixes run out.');
     const state={};
-    const dfs=id=>{ state[id]=1; for(const x of edges(id)){ if(state[x]===1){ W.push(`Loop detected through [${x}]`); return true; } if(!state[x] && dfs(x)) return true; } state[id]=2; return false; };
+    const dfs=id=>{ state[id]=1; for(const x of edges(id,true)){ if(state[x]===1){ W.push(`Loop detected through [${x}]`); return true; } if(!state[x] && dfs(x)) return true; } state[id]=2; return false; };
     dfs(t.start);
   }
   if(placeholders) W.push(`${placeholders} node(s) are PLACEHOLDER (no source doc)`);
@@ -313,17 +331,26 @@ function view(n){
   const v = Object.assign({}, n);
   (n.variants||[]).forEach(va=>{ const w=va.when||{};
     if((!w.tool||w.tool===S.s.tool) && (!w.platform||w.platform===S.s.platform))
-      ['text','help','steps','caution'].forEach(k=>{ if(va[k]!=null) v[k]=va[k]; }); });
+      ['text','help','steps','caution','done_when'].forEach(k=>{ if(va[k]!=null) v[k]=va[k]; }); });
   return v;
 }
 function settle(){
   for(let guard=0; guard<200; guard++){
     const n = curNode(); if(!n) return;
     if(n.type!=='terminal' && !fits(n)){ S.s.cur.node = n.skipTo; continue; }
+    if(n.type==='terminal' && n.terminal==='RESOLVED' && S.s.calls && S.s.calls.length){
+      // a fix tree called from a sequence cleared the blocker: go back where it was called from
+      const r = S.s.calls.pop(), t = S.trees[r.tree];
+      S.s.steps.push({ kind:'route', tree:r.tree, node:r.node, text:`Fixed. Resumed: ${t ? t.title : r.tree}`, short:'↩ Resumed', at:Date.now() });
+      S.s.symptom = r.symptom || S.s.symptom;
+      S.s.cur = { tree:r.tree, node:r.node, phase:'node' };
+      continue;
+    }
     if(n.type==='route'){
       const t = S.trees[n.tree]; if(!t) return;
       S.s.steps.push({ kind:'route', tree:S.s.cur.tree, node:n.id, text:`Narrowed to: ${t.title}`, short:'→ '+t.title, at:Date.now() });
       const from = S.trees[S.s.cur.tree];
+      if(n.returnTo) (S.s.calls = S.s.calls || []).push({ tree:S.s.cur.tree, node:n.returnTo, symptom:S.s.symptom });
       S.s.symptom = from && from.role==='triage' ? `${t.title} (via "I'm not sure")` : `${t.title} (via ${from ? from.title : 'another tree'})`;
       S.s.versions[t.id] = { v:t.version, status:t.status||'PLACEHOLDER' };
       S.s.cur = { tree:t.id, node:t.start, phase:'node' };
@@ -332,7 +359,7 @@ function settle(){
     return;
   }
 }
-function snapshot(){ S.s.stack.push({ cur:Object.assign({},S.s.cur), stepsLen:S.s.steps.length, symptom:S.s.symptom }); }
+function snapshot(){ S.s.stack.push({ cur:Object.assign({},S.s.cur), stepsLen:S.s.steps.length, symptom:S.s.symptom, calls:JSON.parse(JSON.stringify(S.s.calls||[])), at:S.s.at||'', failure:S.s.failure||'', ctx:Object.assign({},S.s.ctx||{}) }); }
 function finalizeIfTerminal(){
   const n = curNode();
   if(n && n.type==='terminal' && !S.s.outcome){
@@ -357,7 +384,8 @@ function startRun(treeId){
     symptom: t.role==='triage' ? "I'm not sure (narrowing)" : t.title,
     startedAt:Date.now(), endedAt:null, outcome:null, note:'',
     steps:[], stack:[], cur:{ tree:t.id, node:t.start, phase:'node' },
-    versions:{ [t.id]:{ v:t.version, status:t.status||'PLACEHOLDER' } }
+    versions:{ [t.id]:{ v:t.version, status:t.status||'PLACEHOLDER' } },
+    calls:[], ctx:{}, at:'', failure:''
   };
   S.screen='run'; S.flag=false; S.resume=null; wake(true); commit();
 }
@@ -374,6 +402,7 @@ function back(){
   if(s.outcome){ removeHistory(s.id); s.outcome=null; s.endedAt=null; s.handoffNote=''; wake(true); }
   const snap = s.stack.pop();
   s.cur = snap.cur; s.steps.length = snap.stepsLen; s.symptom = snap.symptom;
+  if(snap.calls) s.calls = snap.calls; if(snap.at!=null) s.at = snap.at; if(snap.failure!=null) s.failure = snap.failure; if(snap.ctx) s.ctx = snap.ctx;
   saveActive(); render();
 }
 function closeRun(){ S.s=null; S.showLog=false; lsSet(LS.active,null); S.screen='entry'; wake(false); render(); }
@@ -391,15 +420,22 @@ function removeHistory(id){ lsSet(LS.history, histAll().filter(x=>x.id!==id)); }
 /* ---------- handoff summary ---------- */
 function buildSummary(s){
   const L=[];
-  const head = s.outcome==='ESCALATE_VRE' ? 'VRE HANDOFF: TRUCK NOT REACHING READY STATE'
+  const head = s.outcome==='ESCALATE_VRE' ? (s.at ? 'VRE HANDOFF: LAUNCH BLOCKED' : 'VRE HANDOFF: TRUCK NOT REACHING READY STATE')
+             : s.outcome==='ESCALATE_TS' ? 'TS THREAD: LAUNCH BLOCKED'
+             : s.outcome==='ESCALATE_DISPATCH' ? 'DISPATCH: TRIP OR ORDER PROBLEM'
              : s.outcome==='RESOLVED' ? 'RESOLVED BY OPERATOR: READY-STATE BLOCKER'
              : s.outcome==='ABANDONED' ? 'ABANDONED RUN' : 'RUN IN PROGRESS';
   L.push(`=== ${head} ===`);
   L.push(`Truck: ${s.truck} | Trailer: ${s.trailer==='BOBTAIL'?'Bobtail (no trailer)':(s.trailer||'not recorded')}`);
   L.push(`Platform: ${platLabel(s.platform)} | Tool: ${toolLabel(s.tool)}`);
   L.push(`Symptom: ${s.symptom}`);
+  const cx = s.ctx || {};
+  if(cx.buildId!=null || s.at) L.push(`Build ID: ${cx.buildId || 'not recorded'}`);
+  if(s.at) L.push(`Phase/step: ${s.at}`);
+  if(s.failure) L.push(`Button selected: ${s.failure}`);
+  Object.entries(cx).filter(([k])=>k!=='buildId').forEach(([k,v])=>L.push(`${k}: ${v}`));
   L.push(`Started: ${fmtDT(s.startedAt)}`);
-  if(s.endedAt) L.push(`${s.outcome==='ESCALATE_VRE'?'Escalated':'Ended'}: ${fmtDT(s.endedAt)} (${fmtDur(s.endedAt-s.startedAt)})`);
+  if(s.endedAt) L.push(`${isEsc(s.outcome)?'Escalated':'Ended'}: ${fmtDT(s.endedAt)} (${fmtDur(s.endedAt-s.startedAt)})`);
   L.push(`Trees: ${Object.entries(s.versions).map(([id,x])=>`${id} v${x.v} [${x.status}]`).join(', ')}`);
   const ph = s.steps.filter(x=>x.placeholder).length, dr = s.steps.filter(x=>x.draft).length;
   if(ph) L.push(`NOTE: ${ph} step(s) used PLACEHOLDER content not yet verified against Aurora docs.`);
@@ -415,8 +451,9 @@ function buildSummary(s){
   const acts = s.steps.filter(x=>x.kind==='action');
   L.push('', `ACTIONS ATTEMPTED: ${acts.length}`);
   acts.forEach(a=>L.push(`- ${a.text} -> ${a.result}`));
-  if(s.handoffNote) L.push('', `FROM PAST TICKETS: ${s.handoffNote}`);
+  if(s.handoffNote) L.push('', `WHAT TO ASK FOR: ${s.handoffNote}`);
   if(s.note && s.note.trim()) L.push('', `OPERATOR NOTE: ${s.note.trim()}`);
+  if(isEsc(s.outcome)) L.push('', 'ATTACH BEFORE POSTING: screenshot of the TApp/Scout screen showing the error, and the current log ID.');
   L.push('', `Run ID: ${s.id} (READY STATE or DIE)`);
   return L.join('\n');
 }
@@ -479,14 +516,14 @@ function runBar(){
   const done = !!S.s.outcome;
   return `<nav class="bar">
     <button class="btn sm" data-act="back">◀ Back</button>
-    ${done ? `<button class="btn sm pri" data-act="newrun">New run</button>` : `<button class="btn sm" data-act="end">End run</button>`}
+    ${done ? `<button class="btn sm pri" data-act="newrun">New run</button>` : `<button class="btn sm" data-act="restart">Restart</button><button class="btn sm" data-act="end">End run</button>`}
   </nav>`;
 }
 function phBanner(n){
   if(n.id==='__resolved') return '';
   if(isPh(n)) return `<div class="ph"><div>Placeholder: not from Aurora docs. Verify against SOP.</div></div>`;
-  if(isDraft(n)) return `<div class="draft"><b>From past TS tickets, not SOP.</b> ${esc(n.source.replace(/^\s*TS:\s*/i,''))}</div>`;
-  return `<p class="src">Source: ${esc(n.source)}</p>`;
+  if(isDraft(n)) return `<div class="draft"><b>From past TS tickets, not SOP.</b><details class="src"><summary>Source</summary><p>${esc(n.source.replace(/^\s*TS:\s*/i,''))}</p></details></div>`;
+  return `<details class="src"><summary>Source</summary><p>${esc(n.source)}</p></details>`;
 }
 function body(){
   if(S.screen==='history') return historyBody();
@@ -521,6 +558,7 @@ function entryBody(){
     && (!su.tool || !t.tools || t.tools.includes(su.tool))
     && (!su.platform || !t.platforms || t.platforms.includes(su.platform)));
   const triage = S.order.map(id=>S.trees[id]).find(t=>t.role==='triage');
+  const seqs = S.order.map(id=>S.trees[id]).filter(t=>t.role==='sequence');
   const bad = S.reports.filter(r=>r.errors.length).length;
   const r = S.resume;
   return `
@@ -535,6 +573,7 @@ function entryBody(){
   <div class="seg">${S.tools.map(t=>`<button class="btn sm ${su.tool===t.id?'sel':''}" data-act="tool" data-arg="${esc(t.id)}" aria-pressed="${su.tool===t.id}">${esc(t.label)}</button>`).join('')}</div>
   <div class="field-label ${f&&!su.platform?'miss':''}">Platform</div>
   <div class="seg">${S.platforms.map(p=>`<button class="btn sm ${su.platform===p.id?'sel':''}" data-act="plat" data-arg="${esc(p.id)}" aria-pressed="${su.platform===p.id}">${esc(p.label)}</button>`).join('')}</div>
+  ${seqs.length?`<h2>Launching?</h2><div class="list">${seqs.map(t=>`<button class="btn sig" data-act="start" data-arg="${esc(t.id)}">${esc(t.title)}${t.status!=='VERIFIED'?`<span class="tag">${esc(t.status||'PLACEHOLDER')}</span>`:''}</button>`).join('')}</div>`:''}
   <h2>What's keeping it from ready state?</h2>
   ${cats.length || triage ? '' : `<div class="banner"><b>No fault trees loaded.</b><span class="help">${esc(S.src)}. Import the .json files from the trees folder to use the app offline.</span><button class="btn sm pri" data-act="import">Import tree files</button></div>`}
   <div class="list">
@@ -544,6 +583,8 @@ function entryBody(){
   <p class="status">${S.order.length} tree(s) ready. ${esc(S.src)}.${bad?` <b class="err">${bad} tree file(s) failed checks. See Trees.</b>`:''}${navigator.onLine?'':' Device is offline.'}</p>`;
 }
 
+const resumes = n => !!(n.resolvedNext && (()=>{ const t=getNode(S.s.cur.tree,n.resolvedNext); return t && t.type!=='terminal'; })()) || !!(S.s.calls && S.s.calls.length);
+const copyLabel = () => S.s && S.s.outcome==='ESCALATE_DISPATCH' ? 'Copy message for Dispatch' : 'Copy for TS thread';
 function runBody(){
   const s=S.s, n=curNode();
   if(!n) return `<div class="banner"><b>This step can't be found.</b><span class="help">The tree may have changed since this run started. Escalate with what's been logged so far.</span>
@@ -552,6 +593,16 @@ function runBody(){
   if(n.type==='question'){
     const qn = s.steps.filter(x=>x.kind==='question').length + 1;
     const opts = (n.options||[]).map((o,i)=>Object.assign({_i:i},o)).filter(fits);
+    if(v.done_when){
+      const cls = o => o.type==='success' ? 'ok' : o.type==='stop' ? 'bad stop' : 'ans';
+      return `<p class="step-no">${esc(n.phase||'')}</p>
+        ${n.tapp_changed?`<span class="badge">Updated TApp: this screen changed</span>`:''}
+        <h1 class="q">${esc(v.text)}</h1>
+        ${v.help?`<p class="help">${esc(v.help)}</p>`:''}
+        <div class="done"><b>Done when</b>${esc(v.done_when)}</div>
+        ${phBanner(n)}
+        <div class="answers">${opts.map(o=>`<button class="btn ${cls(o)}" data-act="ans" data-arg="${o._i}">${esc(o.label)}</button>`).join('')}</div>`;
+    }
     return `${phBanner(n)}<p class="step-no">Question ${qn}</p><h1 class="q">${esc(v.text)}</h1>
       ${v.help?`<p class="help">${esc(v.help)}</p>`:''}
       <div class="answers">${opts.map(o=>`<button class="btn ans" data-act="ans" data-arg="${o._i}">${esc(o.label)}</button>`).join('')}</div>`;
@@ -566,7 +617,7 @@ function runBody(){
   if(n.type==='action'){
     if(s.cur.phase==='verify') return `<p class="step-no">You did: ${esc(v.text)}</p><h1 class="q">Did this resolve it?</h1>
       <p class="help">Check the tool. Only say yes if the blocker is actually cleared.</p>
-      <div class="answers"><button class="btn ok" data-act="fixed" data-arg="yes">Yes, it's resolved</button><button class="btn bad" data-act="fixed" data-arg="no">No, still blocked</button></div>`;
+      <div class="answers"><button class="btn ok" data-act="fixed" data-arg="yes">${resumes(n)?'Fixed: resume launch':"Yes, it's resolved"}</button><button class="btn bad" data-act="fixed" data-arg="no">${resumes(n)?'Still failing: next fix':'No, still blocked'}</button></div>`;
     if(s.cur.phase==='cant') return `<p class="step-no">${esc(v.text)}</p><h1 class="q">Why can't you do this step?</h1>
       <p class="help">It's logged for the VRE, then you'll move to the next step.</p>
       <div class="answers">${["Doesn't apply to this truck","Not safe right now","Not authorized or not trained","Tool won't allow it"].map(r=>`<button class="btn ans" data-act="cantwhy" data-arg="${esc(r)}">${esc(r)}</button>`).join('')}</div>`;
@@ -582,11 +633,11 @@ function runBody(){
       <div class="answers"><button class="btn pri" data-act="newrun">Start a new run</button><button class="btn sm" data-act="copy">Copy run summary</button></div>`;
   }
   if(n.type==='terminal'){
-    return `<div class="term bad">Escalate to VRE<small>${esc(v.text)}</small></div>
-      ${n.handoffNote?`<div class="draft"><b>From past tickets:</b> ${esc(n.handoffNote)}</div>`:''}
-      <button class="btn sig" data-act="copy" id="copyBtn">Copy handoff for TS ticket</button>
+    return `<div class="term bad">${n.stop?'STOP. Don\'t touch.':esc(ESC_LABEL[n.terminal]||'Escalate')}<small>${esc(v.text)}</small></div>
+      ${n.handoffNote?`<div class="draft"><b>What to ask for:</b> ${esc(n.handoffNote)}</div>`:''}
+      <button class="btn sig" data-act="copy" id="copyBtn">${copyLabel()}</button>
       ${navigator.share?`<button class="btn sm" data-act="share">Share to app…</button>`:''}
-      <label class="field-label" for="note">Note for the VRE (optional)</label>
+      <label class="field-label" for="note">Note (optional)</label>
       <textarea id="note" placeholder="What you see on screen, anything unusual…">${esc(s.note)}</textarea>
       <pre class="sum" id="sum">${esc(buildSummary(s))}</pre>`;
   }
@@ -607,7 +658,7 @@ function historyBody(){
   const h = histAll();
   if(!h.length) return `<h1 class="q">History</h1><p class="help">Finished runs are saved here on this device. Start a run from the home screen.</p>`;
   return `<h1 class="q">History</h1><div class="list">${h.map(x=>`<button class="item" data-act="hist" data-arg="${esc(x.id)}">
-    <span class="o ${esc(x.outcome)}">${x.outcome==='ESCALATE_VRE'?'Escalated':x.outcome==='RESOLVED'?'Resolved':'Abandoned'}</span>
+    <span class="o ${esc(x.outcome)}">${isEsc(x.outcome)?'Escalated':x.outcome==='RESOLVED'?'Resolved':'Abandoned'}</span>
     <b>${esc(x.truck)}: ${esc(x.symptom)}</b><span>${esc(fmtD(x.startedAt))} ${esc(fmtT(x.startedAt))}${x.trailer?`, ${esc(x.trailer==='BOBTAIL'?'bobtail':x.trailer)}`:''}, ${esc(platLabel(x.platform))}, ${esc(toolLabel(x.tool))}, ${x.steps.length} steps</span></button>`).join('')}</div>
     <div class="row2"><button class="btn sm" data-act="exportHist">Export history</button><button class="btn sm bad" data-act="clearHist">Clear history</button></div>`;
 }
@@ -656,11 +707,14 @@ const A = {
     const n=curNode(), o=n.options[+i], v=view(n);
     snapshot();
     S.s.steps.push({ kind:'question', tree:S.s.cur.tree, node:n.id, text:v.text, answer:o.label, short:o.short||o.label, at:Date.now(), placeholder:isPh(n), draft:isDraft(n) });
+    if(n.phase){ S.s.at = `${n.phase}: ${v.text}`; if(o.type==='fail'||o.type==='stop') S.s.failure = o.label; }
+    if(n.capture) (S.s.ctx = S.s.ctx || {})[n.capture] = o.label;
     goto(o.next);
   },
   inputDone(arg){
     const n=curNode(), v=view(n), el=$('#inp'), val=(arg==='1' && el) ? el.value.trim() : '';
     snapshot();
+    if(n.capture && val) (S.s.ctx = S.s.ctx || {})[n.capture] = val;
     S.s.steps.push({ kind:'question', tree:S.s.cur.tree, node:n.id, text:v.text, answer: val || '(skipped)', short: val ? (val.length>18 ? val.slice(0,17)+'…' : val) : 'Skipped', at:Date.now(), placeholder:isPh(n), draft:isDraft(n) });
     goto(n.next);
   },
@@ -678,11 +732,18 @@ const A = {
     S.s.outcome='ABANDONED'; S.s.endedAt=Date.now(); upsertHistory(S.s); closeRun();
   },
   newrun(){ closeRun(); },
+  restart(){
+    if(!confirm('Start this truck over from the first step? This run is saved as abandoned.')) return;
+    const s=S.s, first=Object.keys(s.versions)[0];
+    if(s.steps.length){ s.outcome='ABANDONED'; s.endedAt=Date.now(); upsertHistory(s); }
+    Object.assign(S.setup, { truck:s.truck, trailer:s.trailer, tool:s.tool, platform:s.platform });
+    S.s=null; startRun(first);
+  },
   forceEsc(){ snapshot(); S.s.cur = { tree:S.s.cur.tree, node:'__forceEsc', phase:'node' }; S.s.outcome='ESCALATE_VRE'; S.s.endedAt=Date.now(); upsertHistory(S.s); saveActive(); renderForced(); },
   async copy(){
     const ok = await copyText(buildSummary(S.s));
     toast(ok ? 'Copied' : 'Copy blocked. Long-press the text to copy.');
-    const b=$('#copyBtn'); if(b && ok){ b.textContent='Copied ✓'; setTimeout(()=>{ const c=$('#copyBtn'); if(c) c.textContent='Copy handoff for TS ticket'; }, 2000); }
+    const b=$('#copyBtn'); if(b && ok){ b.textContent='Copied ✓'; setTimeout(()=>{ const c=$('#copyBtn'); if(c) c.textContent=copyLabel(); }, 2000); }
   },
   async share(){ try { await navigator.share({ title:`VRE handoff ${S.s.truck}`, text:buildSummary(S.s) }); } catch(e){} },
   log(){ S.showLog=!S.showLog; render(); },
