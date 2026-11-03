@@ -3,7 +3,7 @@
   "id": "tapp_step",
   "title": "TApp step failed",
   "role": "category",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "status": "DRAFT",
   "sourceDocs": [
     "DTP TS tickets via Glean, Aug–Oct 2026"
@@ -18,6 +18,8 @@
       "text": "Which TApp step failed?",
       "source": "TS: DTP-111167, DTP-110126, DTP-108736",
       "options": [
+        { "label": "Calibration", "short": "Calibration", "next": "ts_r_cal" },
+        { "label": "SW Pull", "short": "SW Pull", "next": "ts_r_sw" },
         { "label": "Prepare the Aurora Driver", "short": "Prepare AD", "next": "ts_recovery" },
         { "label": "Enter weight and KPRA", "short": "Weight/KPRA", "next": "ts_r_cal" },
         { "label": "Diagnostics", "short": "Diagnostics", "next": "ts_recovery" },
