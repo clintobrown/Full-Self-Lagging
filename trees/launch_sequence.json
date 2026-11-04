@@ -1,0 +1,602 @@
+{
+  "$schema": "./schema.json",
+  "id": "launch_sequence",
+  "title": "Launch a truck (Palmer)",
+  "role": "sequence",
+  "version": "0.2.0",
+  "status": "DRAFT",
+  "sourceDocs": [
+    "Terminals SOP 500-009358-01 (rev Oct 13, 2026)",
+    "Cloud Environments Guide (rev Oct 29, 2026)",
+    "Terminal App Guide (Aug 2026)",
+    "DR-12112 (AS2.0 SOP changes)",
+    "DTP TS tickets via Glean, Aug 4 – Nov 2, 2026",
+    "VO process update (Nov 4, 2026): /checkenv"
+  ],
+  "start": "ls_p0",
+  "nodes": {
+    "ls_p0": {
+      "type": "question",
+      "phase": "Phase 0 · ATMS",
+      "text": "Confirm this truck has an order leaving Palmer",
+      "help": "In ATMS, find the order departing Palmer and check the truck ID on it matches the truck in front of you.",
+      "done_when": "ATMS shows an order departing Palmer with this truck's ID on it.",
+      "tapp_changed": false,
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 1.1 and 2.3",
+      "options": [
+        {"label": "Order found, truck matches", "short": "ATMS ✓", "type": "success", "next": "ls_p1"},
+        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_dispatch"},
+        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+      ]
+    },
+    "ls_p1": {
+      "type": "question",
+      "phase": "Phase 1 · Environment",
+      "text": "Confirm the truck is in the correct environment",
+      "help": "In Slack, send yourself a DM with this command: /checkenv. Once the truck is in the correct environment, you will need to perform a Cold Start.",
+      "done_when": "/checkenv confirms the truck is in the correct environment.",
+      "tapp_changed": false,
+      "source": "VO process update (Nov 4, 2026): /checkenv",
+      "options": [
+        {"label": "Yes, correct environment", "short": "Env ✓", "type": "success", "next": "ls_p2"},
+        {"label": "No, wrong environment", "short": "Wrong env", "type": "fail", "next": "ls_esc_env"},
+        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+      ]
+    },
+    "ls_esc_env": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Stop. The truck is in the wrong environment. Open a VRE thread and paste the summary below.",
+      "source": "VO process update (Nov 4, 2026): /checkenv",
+      "handoffNote": "Request: put this vehicle in the correct cloud environment. Once it's in the correct environment, the VO will perform a Cold Start. Reply in thread when done."
+    },
+    "ls_p2": {
+      "type": "question",
+      "phase": "Phase 2 · Computes",
+      "text": "Start the truck and bring computes up",
+      "help": "Turn on pECU (then rECU, if present). Use shore power and ethernet if available. Start the engine and boot the Aurora Driver.",
+      "done_when": "TApp shows the truck connected and both logging-disk lights are lit.",
+      "tapp_changed": false,
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 3.1; Truck prep 5.1–5.2",
+      "options": [
+        {"label": "Truck connected in TApp", "short": "Computes ✓", "type": "success", "next": "ls_build"},
+        {"label": "TApp shows truck disconnected", "short": "Disconnected", "type": "fail", "next": "ls_c1"},
+        {"label": "Logging disk light is off", "short": "Disk light", "type": "fail", "next": "ls_disk1"},
+        {"label": "Faults block ready state", "short": "Faults", "type": "fail", "next": "ls_r_compute"},
+        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
+        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+      ]
+    },
+    "ls_c1": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Cutoff switches",
+      "text": "Check the power cutoff switches",
+      "steps": [
+        "Check every power cutoff switch is in the run position.",
+        "Check pECU (and rECU, if present) are on.",
+        "Wait for TApp to reconnect."
+      ],
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Truck prep 5.2 (check power cutoff switches before escalating to VRE)",
+      "next": "ls_c2",
+      "resolvedNext": "ls_build"
+    },
+    "ls_c2": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Cold start",
+      "text": "Cold start once, then recheck TApp",
+      "steps": [
+        "TODO: platform cold-start sequence from SOP.",
+        "Wait for the truck to reconnect to the tool before doing anything else.",
+        "Step back through TApp and retry the launch."
+      ],
+      "source": "TS: DTP-104301 · launch.json ln_cs platform sequences · VO site practice (Oct 2026)",
+      "next": "ls_esc_conn",
+      "resolvedNext": "ls_build",
+      "help": "Do one cold start only. In DTP-113007 and DTP-112133, repeated cold starts didn't help because the truck was in the wrong environment.",
+      "variants": [
+        {
+          "when": {"platform": "volvo"},
+          "steps": [
+            "Swap stack to idle via TAPP or Scout.",
+            "Apply parking brake.",
+            "Press and hold the Compute Power Button for 5 seconds. PWR indicators blink red.",
+            "Wait for both PWR indicators to slow-blink green.",
+            "Press and hold the Engine Start Button to turn off the vehicle.",
+            "Turn the primary battery bank switch OFF.",
+            "Turn the redundant (secondary) battery bank switch OFF.",
+            "Ensure both TMS LEDs are off. If on, cycle the battery switches again.",
+            "Wait a minimum of 3 minutes.",
+            "Ensure the DBW Disconnect is in the up/released position.",
+            "Turn the redundant (secondary) battery bank switch ON.",
+            "Connect shore power if needed.",
+            "Turn the primary battery bank switch ON.",
+            "Shore power only: press Engine Start twice. Vehicle power: hold the Engine Start Button.",
+            "Ensure both TMS LEDs show amber or green.",
+            "Press the drive height recall button.",
+            "Press the Compute Power Button for 1 second. It fast-blinks green, then goes steady.",
+            "If it takes more than 10 minutes to boot, consult VRE.",
+            "Swap to AV stack via TAPP or Scout.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {"platform": "international"},
+          "steps": [
+            "Perform System Shut Down.",
+            "Apply parking brake and place transmission in Neutral.",
+            "Swap stack to idle via TAPP or Scout.",
+            "Turn ignition key OFF. The LED stays solid green for about 150 seconds, flashes red for about 10 seconds, then turns off.",
+            "Wait a minimum of 3 minutes after the LED is off.",
+            "Perform System Start Up.",
+            "Ensure the DBW Cutoff Switch is in the up/released position.",
+            "Engine power: start the engine and keep the ignition key in ON.",
+            "Shore power: confirm the shore power switch is off, connect shore power to the vehicle DC receptacle, turn the shore power switch on, then turn the ignition key to ON.",
+            "Ensure the Compute Power Button is flashing once per second (system ready to boot).",
+            "Press and release the Compute Power Button. The LED fast-blinks green, then burns steadily.",
+            "Swap to AV stack via TAPP or Scout.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        },
+        {
+          "when": {"platform": "peterbilt"},
+          "steps": [
+            "Perform System Shut Down.",
+            "Apply parking brake and place transmission in Neutral.",
+            "Swap stack to idle via TAPP or Scout.",
+            "Turn ignition key OFF.",
+            "If on shore power: turn the shore power unit switch OFF and disconnect shore power from the vehicle.",
+            "Wait a minimum of 2 minutes.",
+            "Perform System Start Up.",
+            "Press the DBW Disconnect switch.",
+            "Start the engine. If on shore power: plug in shore power and turn the key to ON for 5 seconds.",
+            "Immediately release the DBW Disconnect button and ensure it is in the up/released position.",
+            "Wait for both PWR indicators on the LSI to slow-blink green.",
+            "Press the Compute Power Button for 1 second. PWR indicators fast-blink green, then burn steadily.",
+            "If the system takes more than 10 minutes to boot, consult VRE.",
+            "FG2.1 only: perform the TBS check.",
+            "Swap to AV stack via TAPP or Scout.",
+            "Wait for the truck to reconnect to the tool before doing anything else."
+          ]
+        }
+      ]
+    },
+    "ls_esc_conn": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Truck won't connect after the switch check and one cold start.",
+      "source": "TS: DTP-113007, DTP-112133, DTP-106475",
+      "handoffNote": "Check the vehicle's cloud environment first. In three recent tickets, 'not connecting' turned out to be the wrong environment, and a cold start fixed it after VRE changed it."
+    },
+    "ls_disk1": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Reseat disks",
+      "text": "Reseat both logging disks and power cycle",
+      "steps": [
+        "Only swap or reseat disks in the idle stack.",
+        "Reseat both logging disks.",
+        "Power cycle the computes and check both disk lights."
+      ],
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 3.1; Truck prep 5.2",
+      "next": "ls_disk2",
+      "resolvedNext": "ls_build"
+    },
+    "ls_disk2": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Reseat again",
+      "text": "Reseat the disks one more time",
+      "steps": [
+        "Reseat both logging disks again.",
+        "Check both disk lights."
+      ],
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Truck prep 5.2 (if still not lit, reseat again and escalate to VRE)",
+      "next": "ls_esc_disk",
+      "resolvedNext": "ls_build"
+    },
+    "ls_esc_disk": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Logging disk light still off after two reseats.",
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Truck prep 5.2"
+    },
+    "ls_r_compute": {
+      "type": "route",
+      "text": "Ready-state faults",
+      "tree": "compute_ready",
+      "returnTo": "ls_build"
+    },
+    "ls_build": {
+      "type": "input",
+      "text": "Build ID TApp shows for this truck",
+      "help": "It goes in the TS thread if you need one. Skip if you can't see it.",
+      "placeholder": "e.g. AV-FUSION-0052-579M-0007-TEST-…",
+      "capture": "buildId",
+      "source": "Launch Aid run context",
+      "next": "ls_p3"
+    },
+    "ls_p3": {
+      "type": "question",
+      "phase": "Phase 3 · SW and Cal",
+      "text": "Check TApp for software update and calibration",
+      "help": "Search the Trip ID or truck number. Tasks marked Required must be done; Suggested ones are optional. Run a Required update on ethernet; a cold start follows it.",
+      "done_when": "No Required software update or calibration task is left open.",
+      "tapp_changed": true,
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 3.2 and Appendix (Calibration); DR-12112 (Required/Suggested labels)",
+      "options": [
+        {"label": "Nothing Required, or all done", "short": "SW/Cal ✓", "type": "success", "next": "ls_p4"},
+        {"label": "Software update failed or stuck", "short": "SW pull", "type": "fail", "next": "ls_r_sw"},
+        {"label": "Calibration failed or stuck", "short": "Cal", "type": "fail", "next": "ls_r_cal"},
+        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
+        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+      ],
+      "variants": [
+        {
+          "when": {"tool": "scout"},
+          "help": "If the truck has Remote Software Deploy turned on, pull software through TApp, not Scout. Leave Scout alone during the launch workflow unless your VO task says otherwise. Required tasks must be done; Suggested ones are optional."
+        }
+      ]
+    },
+    "ls_r_sw": {
+      "type": "route",
+      "text": "Software pull",
+      "tree": "sw_pull",
+      "returnTo": "ls_p3"
+    },
+    "ls_r_cal": {
+      "type": "route",
+      "text": "Calibration",
+      "tree": "calibration",
+      "returnTo": "ls_p3"
+    },
+    "ls_p4": {
+      "type": "question",
+      "phase": "Phase 4 · Trip",
+      "text": "Confirm the trip is ready in TApp",
+      "help": "The order must be Confirmed in ATMS for this truck. In TApp, open the Trips tab and find the trip.",
+      "done_when": "TApp's Trips tab shows this trip on this truck, dated today.",
+      "tapp_changed": false,
+      "source": "TS: DTP-98931, DTP-109883; Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 2.3",
+      "options": [
+        {"label": "Trip shows in TApp", "short": "Trip ✓", "type": "success", "next": "ls_p51"},
+        {"label": "Trip not showing in TApp", "short": "No trip", "type": "fail", "next": "ls_t1"},
+        {"label": "Says truck already has active trip", "short": "Active trip", "type": "fail", "next": "ls_stale1"},
+        {"label": "Trip shows completed or delivered", "short": "Completed", "type": "fail", "next": "ls_esc_disp_done"},
+        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_dispatch"},
+        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+      ]
+    },
+    "ls_t1": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Trips tab",
+      "text": "Look in the Trips tab, not the truck card",
+      "steps": [
+        "Open the Trips tab in TApp.",
+        "Search the Trip ID."
+      ],
+      "source": "TS: DTP-107741, DTP-97920 (workaround: navigate to the Trips tab)",
+      "next": "ls_t2",
+      "resolvedNext": "ls_p51"
+    },
+    "ls_t2": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Terminal",
+      "text": "Check TApp is set to the trip's terminal",
+      "steps": [
+        "In ATMS, check the trip's origin terminal.",
+        "In TApp Settings, set your terminal to match.",
+        "Refresh and search again."
+      ],
+      "source": "TS: DTP-110377 (workaround: check location in ATMS, change location), DTP-111917; Terminal App Guide (Aug 2026), Settings",
+      "next": "ls_esc_disp_trip",
+      "resolvedNext": "ls_p51"
+    },
+    "ls_esc_disp_trip": {
+      "type": "terminal",
+      "terminal": "ESCALATE_DISPATCH",
+      "text": "The trip still isn't showing. This is a Dispatch fix, not a TS thread.",
+      "source": "TS: DTP-98931, DTP-109883, DTP-112205, DTP-107543, DTP-109516, DTP-104559",
+      "handoffNote": "Ask Dispatch to check: the order is Confirmed (DTP-98931); the departure date is today (DTP-109883); the trip type is SVO, not Manual, since manual trips don't show in TApp (DTP-112205, DTP-107543); recreate the trip if it's in ATMS but not TApp (DTP-109516)."
+    },
+    "ls_stale1": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Refresh",
+      "text": "Refresh TApp and check again",
+      "steps": [
+        "Refresh TApp.",
+        "If the old trip still shows active, stop. Don't retry force land; it keeps failing."
+      ],
+      "source": "TS: DTP-111692 (workaround: refresh TApp first)",
+      "next": "ls_esc_stale",
+      "resolvedNext": "ls_p51"
+    },
+    "ls_esc_stale": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "A stale trip is blocking this one. VRE has to clear it.",
+      "source": "TS: DTP-111692, DTP-102071, DTP-105733",
+      "handoffNote": "Likely ask: move the stack to IDLE, then refresh TApp (DTP-111692), or clear the blocking trip with find-blockers (DTP-102071)."
+    },
+    "ls_esc_disp_done": {
+      "type": "terminal",
+      "terminal": "ESCALATE_DISPATCH",
+      "text": "The order shows completed before this leg ran. Dispatch has to fix the order.",
+      "source": "TS: DTP-111695, DTP-109875, DTP-109883",
+      "handoffNote": "Multi-leg order: ask Dispatch to move the order to the right stage for this leg (DTP-111695). Also check that the departure date is today (DTP-109883)."
+    },
+    "ls_p51": {
+      "type": "question",
+      "phase": "5.1 · Prepare Driver",
+      "text": "Run Prepare the Aurora Driver",
+      "help": "Start the task, ideally with the truck on ethernet. If a software download is running, TApp says so; it can take up to 45 minutes.",
+      "done_when": "Prepare the Aurora Driver and Trip Data Sync show complete.",
+      "tapp_changed": true,
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 3.3 and 3.5",
+      "options": [
+        {"label": "Prepare Driver complete", "short": "Prepare ✓", "type": "success", "next": "ls_p52"},
+        {"label": "Trip Data Sync failed", "short": "TDS", "type": "fail", "next": "ls_tds1"},
+        {"label": "Says software deployment in progress", "short": "Deploy", "type": "fail", "next": "ls_dep1"},
+        {"label": "Says no atlas view found", "short": "Atlas view", "type": "fail", "next": "ls_esc_disp_atlas"},
+        {"label": "Says software not of release", "short": "Not of release", "type": "fail", "next": "ls_esc_release"},
+        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
+        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+      ]
+    },
+    "ls_tds1": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Retry TDS",
+      "text": "Retry Prepare the Aurora Driver on ethernet",
+      "steps": [
+        "Connect the truck to ethernet.",
+        "Retry Prepare the Aurora Driver once from TApp."
+      ],
+      "source": "TS: DTP-108879 (workaround: reset Prepare Aurora Driver V2 and try again, ideally on ethernet), DTP-110193, DTP-110294; Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 3.5",
+      "next": "ls_esc_tds",
+      "resolvedNext": "ls_p52"
+    },
+    "ls_esc_tds": {
+      "type": "terminal",
+      "terminal": "ESCALATE_TS",
+      "text": "Trip Data Sync still fails after a retry on ethernet.",
+      "source": "TS: DTP-106273, DTP-104406, DTP-106278, DTP-107810",
+      "handoffNote": "Include the exact error text from TApp (e.g. SYSTEM_READINESS_GENERAL_ERROR, DOWNSTREAM_SERVICE_ERROR)."
+    },
+    "ls_dep1": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Wait for pull",
+      "text": "Let the software pull finish, then retry",
+      "steps": [
+        "Check the software update task in TApp.",
+        "When it shows complete, retry Prepare the Aurora Driver."
+      ],
+      "source": "TS: DTP-110232, DTP-110239",
+      "next": "ls_esc_ts",
+      "resolvedNext": "ls_p52"
+    },
+    "ls_esc_disp_atlas": {
+      "type": "terminal",
+      "terminal": "ESCALATE_DISPATCH",
+      "text": "The error says to request support and not to retry. Dispatch regenerates the trip.",
+      "source": "TS: DTP-109242, DTP-106173, DTP-104622",
+      "handoffNote": "Ask Dispatch to regenerate the external trip with a valid pickup and drop-off; that moved the trip back to Preparing and cleared the atlas error (DTP-109242)."
+    },
+    "ls_esc_release": {
+      "type": "terminal",
+      "terminal": "ESCALATE_TS",
+      "text": "Permission check failed: software not of release.",
+      "source": "TS: DTP-109782, DTP-107226, DTP-101376",
+      "handoffNote": "Include the build ID and the trip's expected release. Past fixes needed TS to check the release label on the truck's software."
+    },
+    "ls_p52": {
+      "type": "question",
+      "phase": "5.2 · Weight and KPRA",
+      "text": "Enter weight, KPRA, and tire type",
+      "help": "Let TApp swap stacks first. Enter gross and axle 1–3 weights from the scale ticket, KPRA, and tire type, then tap to sign. NVO: a second TO, ATOS, or Lead confirms the weight entry.",
+      "done_when": "TApp confirms the submission and the values match the scale ticket and trailer.",
+      "tapp_changed": true,
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 5.1–5.2 (OR-63, OR-59)",
+      "options": [
+        {"label": "Submitted and confirmed", "short": "Weight ✓", "type": "success", "next": "ls_p53"},
+        {"label": "Says incorrect operating mode", "short": "Op mode", "type": "fail", "next": "ls_wm1"},
+        {"label": "Submit spins and never confirms", "short": "Spins", "type": "fail", "next": "ls_esc_spin"},
+        {"label": "Bobtail: mass cannot be zero", "short": "Bobtail", "type": "fail", "next": "ls_esc_bobtail"},
+        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
+        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+      ]
+    },
+    "ls_wm1": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Wait for AUTO",
+      "text": "Wait for the AV stack, then resubmit",
+      "steps": [
+        "Watch the stack status until it reads Autonomous.",
+        "Resubmit weight and KPRA once."
+      ],
+      "source": "TS: DTP-109799 (root cause: stack was in IDLE when submitted), DTP-110039, DTP-110828; Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 5.1",
+      "next": "ls_esc_wm",
+      "resolvedNext": "ls_p53"
+    },
+    "ls_esc_wm": {
+      "type": "terminal",
+      "terminal": "ESCALATE_TS",
+      "text": "Still 'incorrect operating mode' with the stack in Autonomous.",
+      "source": "TS: DTP-109799, DTP-109560",
+      "handoffNote": "Likely ask: reset the task to the Preparing stage (DTP-109799 workaround)."
+    },
+    "ls_esc_spin": {
+      "type": "terminal",
+      "terminal": "ESCALATE_TS",
+      "text": "Weight and KPRA submit times out.",
+      "source": "TS: DTP-112180, DTP-109570",
+      "handoffNote": "Include the error if TApp shows one (e.g. SIGNAL_TIMEOUT)."
+    },
+    "ls_esc_bobtail": {
+      "type": "terminal",
+      "terminal": "ESCALATE_TS",
+      "text": "Known bug: TApp can't submit weight for bobtail.",
+      "source": "TS: DTP-112798, DTP-112675",
+      "handoffNote": "Fix in progress per DTP-112675 (submit platform weight from config for bobtail)."
+    },
+    "ls_p53": {
+      "type": "question",
+      "phase": "5.3 · Safety",
+      "text": "Complete the Safety Requirements",
+      "help": "Confirm every item in TApp. Gate open, Drivewyze device mounted, charged, and logged in. SVO: doors and hatches closed and locked, headlights on.",
+      "done_when": "Every Safety Requirement is checked and the step is finished in TApp.",
+      "tapp_changed": false,
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 7.4–7.6",
+      "options": [
+        {"label": "Done", "short": "Safety ✓", "type": "success", "next": "ls_p54"},
+        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
+        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+      ]
+    },
+    "ls_p54": {
+      "type": "question",
+      "phase": "5.4 · Diagnostics",
+      "text": "Check Diagnostics in TApp",
+      "help": "Run the Diagnostics task.",
+      "done_when": "TApp shows no diagnostics (service actions) for this truck.",
+      "tapp_changed": false,
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 7.3; Terminal App Guide (Aug 2026), Glossary (Service Actions)",
+      "options": [
+        {"label": "No diagnostics", "short": "Diag ✓", "type": "success", "next": "ls_p55"},
+        {"label": "Diagnostics listed", "short": "Diagnostics", "type": "fail", "next": "ls_esc_diag"},
+        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
+        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+      ]
+    },
+    "ls_esc_diag": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Diagnostics are present. The SOP sends these to VRE.",
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 7.3",
+      "handoffNote": "List each diagnostic exactly as TApp shows it."
+    },
+    "ls_p55": {
+      "type": "question",
+      "phase": "5.5 · Launch",
+      "text": "Authorize and launch",
+      "help": "On the pad: immobilize (parking brake, wait 4 seconds, Neutral), chock, press the Standby toggle. Then remove chocks, check no one is within 4 ft, and follow TApp's launch instructions.",
+      "done_when": "Autonomy engages and TApp shows the trip departing.",
+      "tapp_changed": true,
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 6.3, 7.1–7.2, 8.2",
+      "options": [
+        {"label": "Autonomy engaged", "short": "Launched ✓", "type": "success", "next": "ls_done"},
+        {"label": "No ready state on the pad", "short": "No ready", "type": "fail", "next": "ls_rs1"},
+        {"label": "Launch step shows an error", "short": "Launch err", "type": "fail", "next": "ls_r_launch"},
+        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
+        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+      ],
+      "variants": [
+        {
+          "when": {"platform": "peterbilt"},
+          "help": "Peterbilt: do the TBS check first (repeat it any time the engine was turned off and on; !tbscheck in Slack). Then immobilize (parking brake, wait 4 seconds, Neutral), chock, and press the map-pin button. Remove chocks, check no one is within 4 ft, and follow TApp's launch instructions."
+        },
+        {
+          "when": {"platform": "international"},
+          "help": "On the pad: immobilize (parking brake, wait 4 seconds, Neutral), chock, and press AUR AUTH on the dash. Then remove chocks, check no one is within 4 ft, and follow TApp's launch instructions."
+        }
+      ]
+    },
+    "ls_rs1": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Live status",
+      "text": "Check Localization and Launch Position",
+      "steps": [
+        "Tap the truck card in TApp.",
+        "Both Localization and Launch Position must read Gained. All tasks showing complete isn't enough."
+      ],
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 6.3",
+      "next": "ls_rs2",
+      "resolvedNext": "ls_p55"
+    },
+    "ls_rs2": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Realign",
+      "text": "Line up on the pad again",
+      "steps": [
+        "Make sure you're on the launch pad itself, not in front of it or at a staging spot.",
+        "Line up with the painted lines until TApp shows a valid launch position.",
+        "Immobilize again: parking brake, wait 4 seconds, Neutral."
+      ],
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 6.3; TS: DTP-109800, DTP-96816, DTP-110741, DTP-105621",
+      "next": "ls_rs3",
+      "resolvedNext": "ls_p55"
+    },
+    "ls_rs3": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Loop",
+      "text": "Drive a localization loop",
+      "steps": [
+        "Drive at least 165 ft with at least one 90° turn. Avoid unnecessary stops.",
+        "Return to the pad, line up, and check both statuses read Gained."
+      ],
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 6.2; TS: DTP-107859, DTP-110850, DTP-112377",
+      "next": "ls_rs4",
+      "resolvedNext": "ls_p55"
+    },
+    "ls_rs4": {
+      "type": "action",
+      "authorizedRole": "VO",
+      "short": "Trailer entry",
+      "text": "Check the trailer type and length in TApp",
+      "steps": [
+        "Compare the trailer type and length in TApp to the trailer you're pulling.",
+        "If either is wrong, correct it and tap to sign again (only possible before launch)."
+      ],
+      "source": "TS: DTP-113026 (trailer entered as wrong type); Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 5.2",
+      "next": "ls_r_rs_compute",
+      "resolvedNext": "ls_p55"
+    },
+    "ls_r_rs_compute": {
+      "type": "route",
+      "text": "Ready-state faults",
+      "tree": "compute_ready",
+      "returnTo": "ls_p55"
+    },
+    "ls_r_launch": {
+      "type": "route",
+      "text": "Launch error",
+      "tree": "launch",
+      "returnTo": "ls_p55"
+    },
+    "ls_done": {
+      "type": "terminal",
+      "terminal": "RESOLVED",
+      "text": "Launched. The trip is departing.",
+      "source": "Launch Aid"
+    },
+    "ls_esc_ts": {
+      "type": "terminal",
+      "terminal": "ESCALATE_TS",
+      "text": "No listed fix for this. Open a TS thread with the summary below.",
+      "source": "Launch Aid escalation gate"
+    },
+    "ls_esc_dispatch": {
+      "type": "terminal",
+      "terminal": "ESCALATE_DISPATCH",
+      "text": "This is an order or trip problem. Contact Dispatch, not TS.",
+      "source": "Launch Aid escalation gate"
+    },
+    "ls_stop": {
+      "type": "terminal",
+      "terminal": "ESCALATE_VRE",
+      "text": "Stopped for a safety, hardware, or compute symptom. No fixes were tried.",
+      "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 2.2 (OR-104 #10)",
+      "handoffNote": "Keep the truck immobilized (parking brake set, Neutral) and stay with it until VRE responds.",
+      "stop": true
+    }
+  }
+}
