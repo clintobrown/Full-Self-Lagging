@@ -31,7 +31,7 @@
     "tapp_step.json",
     "compute_ready.json",
     "stack_control.json",
-    "startup.json",
+    "startup.json", "launch_sequence.json",
     "launch.json",
     "scout_goal.json",
     "other.json"
