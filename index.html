@@ -677,10 +677,10 @@ function treesBody(){
     <p class="help">${esc(S.src)}. Last fetched ${esc(when)}. ${esc(sw)}</p>
     <p class="help">Fleet list: ${(S.fleet.trucks||[]).length} trucks, ${(S.fleet.trailers||[]).length} trailers${S.fleet.generated?`, built ${esc(S.fleet.generated)} from ${esc(S.fleet.source||'fleet sheet')}`:''}. Added on this device: ${(prefs.customTrucks||[]).length} trucks, ${(prefs.customTrailers||[]).length} trailers.</p>
     <div class="row2"><button class="btn sm pri" data-act="reload">Reload trees</button><button class="btn sm" data-act="import">Import tree files</button></div>
-    ${S.reports.some(r=>r.imported)?`<button class="btn sm" data-act="clearImported">Remove imported trees</button>`:''}
+    ${S.viewTree?`<p class="help">Imported tree JSON: ${esc(S.viewTree)}</p><pre class="sum" id="treeJson" style="max-height:none">${esc(JSON.stringify((lsGet(LS.imported,{trees:{}}).trees||{})[S.viewTree],null,2))}</pre>`:''}${S.reports.some(r=>r.imported)?`<button class="btn sm" data-act="clearImported">Remove imported trees</button>`:''}
     <div class="list">${S.reports.map(r=>`<div class="tree">
       <b>${esc(r.title)} <span class="help">(${esc(r.id)} v${esc(r.version||'?')}, ${esc(r.status||'')}${r.role==='triage'?', triage':''}${r.imported?', imported':''})</span></b>
-      ${r.errors.length?`<span class="err">Not loaded. Fix ${r.errors.length} error(s):</span><ul>${r.errors.map(e=>`<li class="err">${esc(e)}</li>`).join('')}</ul>`:'<span>Loaded</span>'}
+      ${r.errors.length?`<span class="err">Not loaded. Fix ${r.errors.length} error(s):</span><ul>${r.errors.map(e=>`<li class="err">${esc(e)}</li>`).join('')}</ul>`:'<span>Loaded</span>'}${r.imported?`<button class="btn sm" data-act="viewTree" data-arg="${esc(r.id)}">${S.viewTree===r.id?'Hide JSON':'View JSON'}</button>`:''}
       ${r.warnings.length?`<ul>${r.warnings.map(w=>`<li class="warn">${esc(w)}</li>`).join('')}</ul>`:''}
     </div>`).join('') || '<p class="help">No trees found.</p>'}</div>`;
 }
@@ -758,7 +758,7 @@ const A = {
   clearHist(){ if(confirm('Delete all saved runs on this device?')){ lsSet(LS.history,[]); render(); } },
   async reload(){ await loadTrees(); render(); toast('Trees reloaded'); },
   import(){ $('#importFile').click(); },
-  async clearImported(){ if(confirm('Remove all imported trees?')){ lsSet(LS.imported,{trees:{}}); await loadTrees(); render(); } }
+  viewTree(id){ S.viewTree = S.viewTree===id ? null : id; render(); }, async clearImported(){ if(confirm('Remove all imported trees?')){ lsSet(LS.imported,{trees:{}}); await loadTrees(); render(); } }
 };
 function logAction(n, result, reason){
   const v=view(n);
