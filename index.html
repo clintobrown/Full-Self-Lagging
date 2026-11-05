@@ -82,6 +82,26 @@ textarea{width:100%;min-height:96px;border:3px solid var(--line);border-radius:1
 .ph{background:repeating-linear-gradient(-45deg,#ffc600 0 12px,#000 12px 24px);padding:5px;border-radius:10px}
 .ph div{background:#ffc600;color:#000;border-radius:6px;padding:8px 12px;font-size:17px;font-weight:800}
 .src{font-size:16px;color:var(--sub);margin:0}
+/* terminal picker */
+.term-btn span{display:flex;flex-direction:column}
+.term-btn small{font-size:16px;font-weight:600;color:var(--sub)}
+.term-btn.sel small{color:inherit}
+/* troubleshoot dock: right-edge drawer on phones, right column on wide screens */
+.ts-fab{position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:21;width:68px;height:68px;border-radius:50%;
+  border:3px solid var(--line);background:var(--fg);color:var(--bg);font-weight:900;font-size:20px;letter-spacing:.02em}
+.tsdock{position:fixed;top:0;right:0;bottom:0;width:min(88vw,360px);z-index:22;background:var(--bg);border-left:4px solid var(--line);
+  padding:calc(14px + env(safe-area-inset-top,0px)) 14px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;
+  transform:translateX(100%);visibility:hidden}
+.tsdock.open{transform:none;visibility:visible;box-shadow:-12px 0 40px rgba(0,0,0,.45)}
+@media (prefers-reduced-motion:no-preference){.tsdock{transition:transform .2s ease,visibility .2s}}
+.ts-head{display:flex;align-items:center;justify-content:space-between}
+.ts-head h2{margin:0}
+.ts-ring{align-self:center;width:120px;height:120px;border-radius:50%;border:4px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:34px}
+@media (min-width:1100px){
+  .ts-fab,.ts-close{display:none}
+  .tsdock{transform:none;visibility:visible;top:76px;width:340px;border-left:4px solid var(--line)}
+  main{margin-right:auto;margin-left:max(14px,calc((100vw - 340px - 760px)/2))}
+}
 details.src summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:800}
 details.src p{margin:4px 0 0}
 .done{border:3px solid var(--ok);border-left-width:10px;border-radius:10px;padding:8px 12px;font-size:19px;background:var(--card)}
@@ -174,6 +194,7 @@ pre.sum{white-space:pre-wrap;word-break:break-word;margin:0;font:600 16px/1.45 "
 const LS = { cache:'rp.treecache.v1', imported:'rp.imported.v1', active:'rp.active.v1', history:'rp.history.v1', prefs:'rp.prefs.v1' };
 const HISTORY_CAP = 300;
 const DEFAULT_TOOLS = [{id:'scout',label:'Scout'},{id:'tapp',label:'TApp'}];
+const DEFAULT_TERMINALS = [{id:'AURY-DAL-01',name:'Palmer',city:'Palmer, TX'}];
 const DEFAULT_PLATFORMS = [{id:'volvo',label:'Volvo'},{id:'international',label:'International'},{id:'peterbilt',label:'Peterbilt'}];
 const RESOLVED_BUILTIN = { id:'__resolved', type:'terminal', terminal:'RESOLVED', text:'The last action cleared the blocker. Continue bringing the truck to ready state.', source:'ReadyPath built-in' };
 
@@ -192,10 +213,10 @@ const isPh = n => !n || !n.source || /^\s*(TODO|PLACEHOLDER)/i.test(n.source);
 const isDraft = n => !!(n && n.source && /^\s*TS:/i.test(n.source));
 
 /* ---------- app state ---------- */
-const prefs = Object.assign({ theme:'sun', lastTruck:'', lastTrailer:'', lastTool:'', lastPlatform:'', customTrucks:[], customTrailers:[], recentTrucks:[], recentTrailers:[] }, lsGet(LS.prefs, {}));
+const prefs = Object.assign({ theme:'sun', lastTruck:'', lastTrailer:'', lastTool:'', lastPlatform:'', lastTerminal:'', customTrucks:[], customTrailers:[], recentTrucks:[], recentTrailers:[] }, lsGet(LS.prefs, {}));
 const S = {
   screen:'entry', trees:{}, order:[], reports:[], src:'none', fetchedAt:null,
-  tools:DEFAULT_TOOLS, platforms:DEFAULT_PLATFORMS,
+  tools:DEFAULT_TOOLS, platforms:DEFAULT_PLATFORMS, terminals:DEFAULT_TERMINALS, launchTree:'launch_sequence', tsOpen:false,
   setup:{ truck:prefs.lastTruck, trailer:prefs.lastTrailer, tool:prefs.lastTool, platform:prefs.lastPlatform }, fleet:{trucks:[],trailers:[]}, manual:{},
   s:null, resume:null, showLog:false, histId:null, flag:false
 };
@@ -307,7 +328,7 @@ async function loadTrees(){
     data = lsGet(LS.cache,null); S.src = data ? 'Using saved copy' : 'Opened as a file: import tree files';
   }
   S.fetchedAt = data ? data.fetchedAt : null;
-  if(data && data.manifest){ S.tools = data.manifest.tools || DEFAULT_TOOLS; S.platforms = data.manifest.platforms || DEFAULT_PLATFORMS; }
+  if(data && data.manifest){ S.tools = data.manifest.tools || DEFAULT_TOOLS; S.platforms = data.manifest.platforms || DEFAULT_PLATFORMS; S.terminals = data.manifest.terminals || DEFAULT_TERMINALS; S.launchTree = data.manifest.launchTree || 'launch_sequence'; }
   if(data && data.fleet) S.fleet = data.fleet;
   const imp = lsGet(LS.imported, {trees:{}});
   const all = Object.assign({}, data ? data.trees : {}, imp.trees);
@@ -332,6 +353,10 @@ function view(n){
   (n.variants||[]).forEach(va=>{ const w=va.when||{};
     if((!w.tool||w.tool===S.s.tool) && (!w.platform||w.platform===S.s.platform))
       ['text','help','steps','caution','done_when'].forEach(k=>{ if(va[k]!=null) v[k]=va[k]; }); });
+  const tn = S.s.terminal ? `${S.s.terminal.name} (${S.s.terminal.id})` : 'your terminal';
+  const fill = x => typeof x==='string' ? x.split('{terminal}').join(tn) : x;
+  ['text','help','done_when','caution'].forEach(k=>{ v[k]=fill(v[k]); });
+  if(Array.isArray(v.steps)) v.steps = v.steps.map(fill);
   return v;
 }
 function settle(){
@@ -376,6 +401,8 @@ function startRun(treeId){
   if(!truck) miss.push('truck'); if(!trailer) miss.push('trailer'); if(!su.tool) miss.push('tool'); if(!su.platform) miss.push('platform');
   if(miss.length){ S.flag = true; render(); toast('Add ' + miss.join(', ') + ' first'); return; }
   const t = S.trees[treeId]; if(!t) return;
+  const term = treeId===S.launchTree ? (S.terminals.find(x=>x.id===su.terminal) || null) : null;
+  if(term) prefs.lastTerminal = term.id;
   const bump = (arr,v) => [v, ...(arr||[]).filter(x=>x!==v)].slice(0,5);
   Object.assign(prefs, { lastTruck:truck, lastTrailer:trailer, lastTool:su.tool, lastPlatform:su.platform, recentTrucks:bump(prefs.recentTrucks,truck), recentTrailers:bump(prefs.recentTrailers,trailer) }); savePrefs();
   S.s = {
@@ -385,7 +412,7 @@ function startRun(treeId){
     startedAt:Date.now(), endedAt:null, outcome:null, note:'',
     steps:[], stack:[], cur:{ tree:t.id, node:t.start, phase:'node' },
     versions:{ [t.id]:{ v:t.version, status:t.status||'PLACEHOLDER' } },
-    calls:[], ctx:{}, at:'', failure:''
+    calls:[], ctx:{}, at:'', failure:'', terminal:term
   };
   S.screen='run'; S.flag=false; S.resume=null; wake(true); commit();
 }
@@ -428,6 +455,7 @@ function buildSummary(s){
   L.push(`=== ${head} ===`);
   L.push(`Truck: ${s.truck} | Trailer: ${s.trailer==='BOBTAIL'?'Bobtail (no trailer)':(s.trailer||'not recorded')}`);
   L.push(`Platform: ${platLabel(s.platform)} | Tool: ${toolLabel(s.tool)}`);
+  if(s.terminal) L.push(`Launching from: ${s.terminal.name} (${s.terminal.id})`);
   L.push(`Symptom: ${s.symptom}`);
   const cx = s.ctx || {};
   if(cx.buildId!=null || s.at) L.push(`Build ID: ${cx.buildId || 'not recorded'}`);
@@ -485,10 +513,27 @@ function render(){
   if(S.screen==='run' && S.s) h += ctxBar() + crumbs();
   h += `<main id="main">${body()}</main>`;
   if(S.screen==='run' && S.s) h += runBar();
+  if(S.screen==='entry') h += tsDock();
   if(S.showLog && S.s) h += logSheet();
   $('#app').innerHTML = h;
   const c=$('.crumbs'); if(c) c.scrollLeft = c.scrollWidth;
   window.scrollTo(0,0);
+}
+function tsDock(){
+  const su=S.setup;
+  const cats = S.order.map(id=>S.trees[id]).filter(t=>t.id==='tapp_step'
+    && (!su.tool || !t.tools || t.tools.includes(su.tool))
+    && (!su.platform || !t.platforms || t.platforms.includes(su.platform)));
+  const seqs = S.order.map(id=>S.trees[id]).filter(t=>t.role==='sequence' && t.id!==S.launchTree);
+  const items = [...cats, ...seqs];
+  return `<button class="ts-fab" data-act="tsToggle" aria-expanded="${S.tsOpen}" aria-controls="tsdock">T/S</button>
+  <aside id="tsdock" class="tsdock ${S.tsOpen?'open':''}" aria-label="Troubleshoot">
+    <div class="ts-head"><h2>Troubleshoot</h2><button class="hbtn ts-close" data-act="tsToggle" aria-label="Close troubleshoot">✕</button></div>
+    <div class="ts-ring" aria-hidden="true">T/S</div>
+    <p class="help">Something already stuck? Start here instead of the launch steps.</p>
+    ${items.length ? `<div class="list">${items.map(t=>`<button class="btn ans" data-act="start" data-arg="${esc(t.id)}">${esc(t.title)}${t.status!=='VERIFIED'?`<span class="tag">${esc(t.status||'PLACEHOLDER')}</span>`:''}</button>`).join('')}</div>`
+      : `<div class="banner"><b>No fault trees loaded.</b><span class="help">${esc(S.src)}.</span><button class="btn sm pri" data-act="import">Import tree files</button></div>`}
+  </aside>`;
 }
 function header(){
   const inRun = S.screen==='run';
@@ -558,7 +603,7 @@ function entryBody(){
     && (!su.tool || !t.tools || t.tools.includes(su.tool))
     && (!su.platform || !t.platforms || t.platforms.includes(su.platform)));
   const triage = null;
-  const seqs = S.order.map(id=>S.trees[id]).filter(t=>t.role==='sequence');
+  const seqs = S.order.map(id=>S.trees[id]).filter(t=>t.role==='sequence' && t.id!==S.launchTree);
   const bad = S.reports.filter(r=>r.errors.length).length;
   const r = S.resume;
   return `
@@ -573,13 +618,9 @@ function entryBody(){
   <div class="seg">${S.tools.map(t=>`<button class="btn sm ${su.tool===t.id?'sel':''}" data-act="tool" data-arg="${esc(t.id)}" aria-pressed="${su.tool===t.id}">${esc(t.label)}</button>`).join('')}</div>
   <div class="field-label ${f&&!su.platform?'miss':''}">Platform</div>
   <div class="seg">${S.platforms.map(p=>`<button class="btn sm ${su.platform===p.id?'sel':''}" data-act="plat" data-arg="${esc(p.id)}" aria-pressed="${su.platform===p.id}">${esc(p.label)}</button>`).join('')}</div>
-  ${seqs.length?`<h2>Launching?</h2><div class="list">${seqs.map(t=>`<button class="btn sig" data-act="start" data-arg="${esc(t.id)}">${esc(t.title)}${t.status!=='VERIFIED'?`<span class="tag">${esc(t.status||'PLACEHOLDER')}</span>`:''}</button>`).join('')}</div>`:''}
-  <h2>Troubleshoot</h2>
-  ${cats.length || triage ? '' : `<div class="banner"><b>No fault trees loaded.</b><span class="help">${esc(S.src)}. Import the .json files from the trees folder to use the app offline.</span><button class="btn sm pri" data-act="import">Import tree files</button></div>`}
-  <div class="list">
-    ${cats.map(t=>`<button class="btn ans" data-act="start" data-arg="${esc(t.id)}">${esc(t.title)}${t.status!=='VERIFIED'?`<span class="tag">${esc(t.status||'PLACEHOLDER')}</span>`:''}</button>`).join('')}
-    ${triage ? `<button class="btn ans sig" data-act="start" data-arg="${esc(triage.id)}">I'm not sure. Help me narrow it down</button>` : ''}
-  </div>
+  ${su.platform ? `<h2>Where are you launching from?</h2>
+  <div class="list">${S.terminals.map(x=>`<button class="btn ans term-btn ${prefs.lastTerminal===x.id?'sel':''}" data-act="terminal" data-arg="${esc(x.id)}"><span>${esc(x.name)}<small>${esc(x.id)}${x.city?` · ${esc(x.city)}`:''}</small></span></button>`).join('')}</div>`
+  : `<p class="help">Pick the platform to choose your launch terminal.</p>`}
   <p class="status">${S.order.length} tree(s) ready. ${esc(S.src)}.${bad?` <b class="err">${bad} tree file(s) failed checks. See Trees.</b>`:''}${navigator.onLine?'':' Device is offline.'}</p>`;
 }
 
@@ -700,7 +741,9 @@ const A = {
   },
   cancelVeh(kind){ S.manual[kind]=false; render(); },
   plat(id){ S.setup.platform=id; render(); },
-  start(id){ startRun(id); },
+  start(id){ S.tsOpen=false; startRun(id); },
+  terminal(id){ S.setup.terminal=id; startRun(S.launchTree); },
+  tsToggle(){ S.tsOpen=!S.tsOpen; render(); },
   resume(){ S.s=S.resume; S.resume=null; S.screen='run'; if(!S.s.outcome) wake(true); render(); },
   discard(){ const r=S.resume; if(r.steps.length){ r.outcome='ABANDONED'; r.endedAt=Date.now(); upsertHistory(r); } S.resume=null; lsSet(LS.active,null); render(); },
   ans(i){
@@ -736,7 +779,7 @@ const A = {
     if(!confirm('Start this truck over from the first step? This run is saved as abandoned.')) return;
     const s=S.s, first=Object.keys(s.versions)[0];
     if(s.steps.length){ s.outcome='ABANDONED'; s.endedAt=Date.now(); upsertHistory(s); }
-    Object.assign(S.setup, { truck:s.truck, trailer:s.trailer, tool:s.tool, platform:s.platform });
+    Object.assign(S.setup, { truck:s.truck, trailer:s.trailer, tool:s.tool, platform:s.platform, terminal:s.terminal ? s.terminal.id : S.setup.terminal });
     S.s=null; startRun(first);
   },
   forceEsc(){ snapshot(); S.s.cur = { tree:S.s.cur.tree, node:'__forceEsc', phase:'node' }; S.s.outcome='ESCALATE_VRE'; S.s.endedAt=Date.now(); upsertHistory(S.s); saveActive(); renderForced(); },
