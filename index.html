@@ -458,7 +458,7 @@ function buildSummary(s){
   if(s.terminal) L.push(`Launching from: ${s.terminal.name} (${s.terminal.id})`);
   L.push(`Symptom: ${s.symptom}`);
   const cx = s.ctx || {};
-  if(cx.buildId!=null || s.at) L.push(`Build ID: ${cx.buildId || 'not recorded'}`);
+  if(cx.buildId || (isEsc(s.outcome) && s.outcome!=='ESCALATE_DISPATCH')) L.push(`Build ID: ${cx.buildId || 'not recorded'}`);
   if(s.at) L.push(`Phase/step: ${s.at}`);
   if(s.failure) L.push(`Button selected: ${s.failure}`);
   Object.entries(cx).filter(([k])=>k!=='buildId').forEach(([k,v])=>L.push(`${k}: ${v}`));
@@ -676,6 +676,9 @@ function runBody(){
   if(n.type==='terminal'){
     return `<div class="term bad">${n.stop?'STOP. Don\'t touch.':esc(ESC_LABEL[n.terminal]||'Escalate')}<small>${esc(v.text)}</small></div>
       ${n.handoffNote?`<div class="draft"><b>What to ask for:</b> ${esc(n.handoffNote)}</div>`:''}
+      ${n.terminal!=='ESCALATE_DISPATCH'?`<label class="field-label" for="buildId">Build ID (optional)</label>
+      <input id="buildId" class="big" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Software build ${s.tool==='scout'?'Scout':'TApp'} shows, e.g. AV-FUSION-0052-…" value="${esc((s.ctx&&s.ctx.buildId)||'')}">
+      <p class="help">VRE and TS usually ask for it. Leave blank if you can't see it.</p>`:''}
       <button class="btn sig" data-act="copy" id="copyBtn">${copyLabel()}</button>
       ${navigator.share?`<button class="btn sm" data-act="share">Share to app…</button>`:''}
       <label class="field-label" for="note">Note (optional)</label>
@@ -821,6 +824,7 @@ document.addEventListener('click', e=>{
 });
 document.addEventListener('input', e=>{
   /* truck/trailer use change events */
+  if(e.target.id==='buildId' && S.s){ (S.s.ctx = S.s.ctx || {}).buildId = e.target.value.trim(); saveActive(); if(S.s.outcome) upsertHistory(S.s); const p=$('#sum'); if(p) p.textContent = buildSummary(S.s); }
   if(e.target.id==='note' && S.s){ S.s.note = e.target.value; saveActive(); if(S.s.outcome) upsertHistory(S.s); const p=$('#sum'); if(p) p.textContent = buildSummary(S.s); }
 });
 document.addEventListener('change', e=>{
