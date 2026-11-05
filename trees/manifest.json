@@ -1,5 +1,5 @@
 {
-  "manifestVersion": "0.3.0",
+  "manifestVersion": "0.3.1",
   "tools": [
     {
       "id": "scout",
@@ -64,6 +64,26 @@
       "id": "AURY-PHX-01",
       "name": "Phoenix",
       "city": "Laveen, AZ"
+    },
+    {
+      "id": "VLTK-LRD-01",
+      "name": "Laredo: Value Truck",
+      "city": "Laredo, TX"
+    },
+    {
+      "id": "WENP-LRD-01",
+      "name": "Laredo: Werner",
+      "city": "Laredo, TX"
+    },
+    {
+      "id": "CLIJ-LRD-01",
+      "name": "Laredo: Charger",
+      "city": "Laredo, TX"
+    },
+    {
+      "id": "HTSH-LRD-01",
+      "name": "Laredo: Hirschbach (Driscoll's)",
+      "city": "Laredo, TX"
     }
   ]
 }
