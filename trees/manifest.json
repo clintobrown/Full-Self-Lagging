@@ -1,5 +1,5 @@
 {
-  "manifestVersion": "0.3.1",
+  "manifestVersion": "0.3.2",
   "tools": [
     {
       "id": "scout",
@@ -64,6 +64,31 @@
       "id": "AURY-PHX-01",
       "name": "Phoenix",
       "city": "Laveen, AZ"
+    },
+    {
+      "id": "VAS-DAL-01",
+      "name": "Dallas: VAS (Volvo)",
+      "city": "Palmer, TX"
+    },
+    {
+      "id": "WENP-DAL-01",
+      "name": "Dallas: Werner",
+      "city": "Hutchins, TX"
+    },
+    {
+      "id": "CLIJ-DAL-01",
+      "name": "Dallas: Charger",
+      "city": "Hutchins, TX"
+    },
+    {
+      "id": "HTSH-DAL-01",
+      "name": "Dallas: Hirschbach",
+      "city": "Hutchins, TX"
+    },
+    {
+      "id": "VLTK-DFW-01",
+      "name": "Dallas: Value Truck",
+      "city": "Dallas, TX"
     },
     {
       "id": "VLTK-LRD-01",

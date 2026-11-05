@@ -3,7 +3,7 @@
   "id": "launch_sequence",
   "title": "Launch a truck",
   "role": "sequence",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "status": "DRAFT",
   "sourceDocs": [
     "Terminals SOP 500-009358-01 (rev Oct 13, 2026)",
@@ -93,7 +93,7 @@
           "label": "Truck connected in TApp",
           "short": "Computes ✓",
           "type": "success",
-          "next": "ls_build"
+          "next": "ls_p3"
         },
         {
           "label": "TApp shows truck disconnected",
@@ -139,7 +139,7 @@
       ],
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Truck prep 5.2 (check power cutoff switches before escalating to VRE)",
       "next": "ls_c2",
-      "resolvedNext": "ls_build"
+      "resolvedNext": "ls_p3"
     },
     "ls_c2": {
       "type": "action",
@@ -153,7 +153,7 @@
       ],
       "source": "TS: DTP-104301 · launch.json ln_cs platform sequences · VO site practice (Oct 2026)",
       "next": "ls_esc_conn",
-      "resolvedNext": "ls_build",
+      "resolvedNext": "ls_p3",
       "help": "Do one cold start only. In DTP-113007 and DTP-112133, repeated cold starts didn't help because the truck was in the wrong environment.",
       "variants": [
         {
@@ -247,7 +247,7 @@
       ],
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 3.1; Truck prep 5.2",
       "next": "ls_disk2",
-      "resolvedNext": "ls_build"
+      "resolvedNext": "ls_p3"
     },
     "ls_disk2": {
       "type": "action",
@@ -260,7 +260,7 @@
       ],
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Truck prep 5.2 (if still not lit, reseat again and escalate to VRE)",
       "next": "ls_esc_disk",
-      "resolvedNext": "ls_build"
+      "resolvedNext": "ls_p3"
     },
     "ls_esc_disk": {
       "type": "terminal",
@@ -272,16 +272,7 @@
       "type": "route",
       "text": "Ready-state faults",
       "tree": "compute_ready",
-      "returnTo": "ls_build"
-    },
-    "ls_build": {
-      "type": "input",
-      "text": "Build ID TApp shows for this truck",
-      "help": "It goes in the TS thread if you need one. Skip if you can't see it.",
-      "placeholder": "e.g. AV-FUSION-0052-579M-0007-TEST-…",
-      "capture": "buildId",
-      "source": "Launch Aid run context",
-      "next": "ls_p3"
+      "returnTo": "ls_p3"
     },
     "ls_p3": {
       "type": "question",
