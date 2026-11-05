@@ -1,9 +1,9 @@
 {
   "$schema": "./schema.json",
   "id": "launch_sequence",
-  "title": "Launch a truck (Palmer)",
+  "title": "Launch a truck",
   "role": "sequence",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "DRAFT",
   "sourceDocs": [
     "Terminals SOP 500-009358-01 (rev Oct 13, 2026)",
@@ -18,15 +18,30 @@
     "ls_p0": {
       "type": "question",
       "phase": "Phase 0 · ATMS",
-      "text": "Confirm this truck has an order leaving Palmer",
-      "help": "In ATMS, find the order departing Palmer and check the truck ID on it matches the truck in front of you.",
-      "done_when": "ATMS shows an order departing Palmer with this truck's ID on it.",
+      "text": "Confirm in ATMS that your truck has an order leaving {terminal}",
+      "help": "In ATMS, find the order departing {terminal} and check the truck ID on it matches the truck in front of you.",
+      "done_when": "ATMS shows an order departing {terminal} with this truck's ID on it.",
       "tapp_changed": false,
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 1.1 and 2.3",
       "options": [
-        {"label": "Order found, truck matches", "short": "ATMS ✓", "type": "success", "next": "ls_p1"},
-        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_dispatch"},
-        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+        {
+          "label": "Order found, truck matches",
+          "short": "ATMS ✓",
+          "type": "success",
+          "next": "ls_p1"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "type": "fail",
+          "next": "ls_esc_dispatch"
+        },
+        {
+          "label": "STOP, DON'T TOUCH",
+          "short": "STOP",
+          "type": "stop",
+          "next": "ls_stop"
+        }
       ]
     },
     "ls_p1": {
@@ -38,9 +53,24 @@
       "tapp_changed": false,
       "source": "VO process update (Nov 4, 2026): /checkenv",
       "options": [
-        {"label": "Yes, correct environment", "short": "Env ✓", "type": "success", "next": "ls_p2"},
-        {"label": "No, wrong environment", "short": "Wrong env", "type": "fail", "next": "ls_esc_env"},
-        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+        {
+          "label": "Yes, correct environment",
+          "short": "Env ✓",
+          "type": "success",
+          "next": "ls_p2"
+        },
+        {
+          "label": "No, wrong environment",
+          "short": "Wrong env",
+          "type": "fail",
+          "next": "ls_esc_env"
+        },
+        {
+          "label": "STOP, DON'T TOUCH",
+          "short": "STOP",
+          "type": "stop",
+          "next": "ls_stop"
+        }
       ]
     },
     "ls_esc_env": {
@@ -59,12 +89,42 @@
       "tapp_changed": false,
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 3.1; Truck prep 5.1–5.2",
       "options": [
-        {"label": "Truck connected in TApp", "short": "Computes ✓", "type": "success", "next": "ls_build"},
-        {"label": "TApp shows truck disconnected", "short": "Disconnected", "type": "fail", "next": "ls_c1"},
-        {"label": "Logging disk light is off", "short": "Disk light", "type": "fail", "next": "ls_disk1"},
-        {"label": "Faults block ready state", "short": "Faults", "type": "fail", "next": "ls_r_compute"},
-        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
-        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+        {
+          "label": "Truck connected in TApp",
+          "short": "Computes ✓",
+          "type": "success",
+          "next": "ls_build"
+        },
+        {
+          "label": "TApp shows truck disconnected",
+          "short": "Disconnected",
+          "type": "fail",
+          "next": "ls_c1"
+        },
+        {
+          "label": "Logging disk light is off",
+          "short": "Disk light",
+          "type": "fail",
+          "next": "ls_disk1"
+        },
+        {
+          "label": "Faults block ready state",
+          "short": "Faults",
+          "type": "fail",
+          "next": "ls_r_compute"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "type": "fail",
+          "next": "ls_esc_ts"
+        },
+        {
+          "label": "STOP, DON'T TOUCH",
+          "short": "STOP",
+          "type": "stop",
+          "next": "ls_stop"
+        }
       ]
     },
     "ls_c1": {
@@ -97,7 +157,9 @@
       "help": "Do one cold start only. In DTP-113007 and DTP-112133, repeated cold starts didn't help because the truck was in the wrong environment.",
       "variants": [
         {
-          "when": {"platform": "volvo"},
+          "when": {
+            "platform": "volvo"
+          },
           "steps": [
             "Swap stack to idle via TAPP or Scout.",
             "Apply parking brake.",
@@ -122,7 +184,9 @@
           ]
         },
         {
-          "when": {"platform": "international"},
+          "when": {
+            "platform": "international"
+          },
           "steps": [
             "Perform System Shut Down.",
             "Apply parking brake and place transmission in Neutral.",
@@ -140,7 +204,9 @@
           ]
         },
         {
-          "when": {"platform": "peterbilt"},
+          "when": {
+            "platform": "peterbilt"
+          },
           "steps": [
             "Perform System Shut Down.",
             "Apply parking brake and place transmission in Neutral.",
@@ -226,15 +292,42 @@
       "tapp_changed": true,
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 3.2 and Appendix (Calibration); DR-12112 (Required/Suggested labels)",
       "options": [
-        {"label": "Nothing Required, or all done", "short": "SW/Cal ✓", "type": "success", "next": "ls_p4"},
-        {"label": "Software update failed or stuck", "short": "SW pull", "type": "fail", "next": "ls_r_sw"},
-        {"label": "Calibration failed or stuck", "short": "Cal", "type": "fail", "next": "ls_r_cal"},
-        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
-        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+        {
+          "label": "Nothing Required, or all done",
+          "short": "SW/Cal ✓",
+          "type": "success",
+          "next": "ls_p4"
+        },
+        {
+          "label": "Software update failed or stuck",
+          "short": "SW pull",
+          "type": "fail",
+          "next": "ls_r_sw"
+        },
+        {
+          "label": "Calibration failed or stuck",
+          "short": "Cal",
+          "type": "fail",
+          "next": "ls_r_cal"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "type": "fail",
+          "next": "ls_esc_ts"
+        },
+        {
+          "label": "STOP, DON'T TOUCH",
+          "short": "STOP",
+          "type": "stop",
+          "next": "ls_stop"
+        }
       ],
       "variants": [
         {
-          "when": {"tool": "scout"},
+          "when": {
+            "tool": "scout"
+          },
           "help": "If the truck has Remote Software Deploy turned on, pull software through TApp, not Scout. Leave Scout alone during the launch workflow unless your VO task says otherwise. Required tasks must be done; Suggested ones are optional."
         }
       ]
@@ -260,12 +353,42 @@
       "tapp_changed": false,
       "source": "TS: DTP-98931, DTP-109883; Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 2.3",
       "options": [
-        {"label": "Trip shows in TApp", "short": "Trip ✓", "type": "success", "next": "ls_p51"},
-        {"label": "Trip not showing in TApp", "short": "No trip", "type": "fail", "next": "ls_t1"},
-        {"label": "Says truck already has active trip", "short": "Active trip", "type": "fail", "next": "ls_stale1"},
-        {"label": "Trip shows completed or delivered", "short": "Completed", "type": "fail", "next": "ls_esc_disp_done"},
-        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_dispatch"},
-        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+        {
+          "label": "Trip shows in TApp",
+          "short": "Trip ✓",
+          "type": "success",
+          "next": "ls_p51"
+        },
+        {
+          "label": "Trip not showing in TApp",
+          "short": "No trip",
+          "type": "fail",
+          "next": "ls_t1"
+        },
+        {
+          "label": "Says truck already has active trip",
+          "short": "Active trip",
+          "type": "fail",
+          "next": "ls_stale1"
+        },
+        {
+          "label": "Trip shows completed or delivered",
+          "short": "Completed",
+          "type": "fail",
+          "next": "ls_esc_disp_done"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "type": "fail",
+          "next": "ls_esc_dispatch"
+        },
+        {
+          "label": "STOP, DON'T TOUCH",
+          "short": "STOP",
+          "type": "stop",
+          "next": "ls_stop"
+        }
       ]
     },
     "ls_t1": {
@@ -287,7 +410,7 @@
       "short": "Terminal",
       "text": "Check TApp is set to the trip's terminal",
       "steps": [
-        "In ATMS, check the trip's origin terminal.",
+        "In ATMS, check the trip's origin terminal. It should be {terminal}.",
         "In TApp Settings, set your terminal to match.",
         "Refresh and search again."
       ],
@@ -338,13 +461,48 @@
       "tapp_changed": true,
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 3.3 and 3.5",
       "options": [
-        {"label": "Prepare Driver complete", "short": "Prepare ✓", "type": "success", "next": "ls_p52"},
-        {"label": "Trip Data Sync failed", "short": "TDS", "type": "fail", "next": "ls_tds1"},
-        {"label": "Says software deployment in progress", "short": "Deploy", "type": "fail", "next": "ls_dep1"},
-        {"label": "Says no atlas view found", "short": "Atlas view", "type": "fail", "next": "ls_esc_disp_atlas"},
-        {"label": "Says software not of release", "short": "Not of release", "type": "fail", "next": "ls_esc_release"},
-        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
-        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+        {
+          "label": "Prepare Driver complete",
+          "short": "Prepare ✓",
+          "type": "success",
+          "next": "ls_p52"
+        },
+        {
+          "label": "Trip Data Sync failed",
+          "short": "TDS",
+          "type": "fail",
+          "next": "ls_tds1"
+        },
+        {
+          "label": "Says software deployment in progress",
+          "short": "Deploy",
+          "type": "fail",
+          "next": "ls_dep1"
+        },
+        {
+          "label": "Says no atlas view found",
+          "short": "Atlas view",
+          "type": "fail",
+          "next": "ls_esc_disp_atlas"
+        },
+        {
+          "label": "Says software not of release",
+          "short": "Not of release",
+          "type": "fail",
+          "next": "ls_esc_release"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "type": "fail",
+          "next": "ls_esc_ts"
+        },
+        {
+          "label": "STOP, DON'T TOUCH",
+          "short": "STOP",
+          "type": "stop",
+          "next": "ls_stop"
+        }
       ]
     },
     "ls_tds1": {
@@ -403,12 +561,42 @@
       "tapp_changed": true,
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 5.1–5.2 (OR-63, OR-59)",
       "options": [
-        {"label": "Submitted and confirmed", "short": "Weight ✓", "type": "success", "next": "ls_p53"},
-        {"label": "Says incorrect operating mode", "short": "Op mode", "type": "fail", "next": "ls_wm1"},
-        {"label": "Submit spins and never confirms", "short": "Spins", "type": "fail", "next": "ls_esc_spin"},
-        {"label": "Bobtail: mass cannot be zero", "short": "Bobtail", "type": "fail", "next": "ls_esc_bobtail"},
-        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
-        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+        {
+          "label": "Submitted and confirmed",
+          "short": "Weight ✓",
+          "type": "success",
+          "next": "ls_p53"
+        },
+        {
+          "label": "Says incorrect operating mode",
+          "short": "Op mode",
+          "type": "fail",
+          "next": "ls_wm1"
+        },
+        {
+          "label": "Submit spins and never confirms",
+          "short": "Spins",
+          "type": "fail",
+          "next": "ls_esc_spin"
+        },
+        {
+          "label": "Bobtail: mass cannot be zero",
+          "short": "Bobtail",
+          "type": "fail",
+          "next": "ls_esc_bobtail"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "type": "fail",
+          "next": "ls_esc_ts"
+        },
+        {
+          "label": "STOP, DON'T TOUCH",
+          "short": "STOP",
+          "type": "stop",
+          "next": "ls_stop"
+        }
       ]
     },
     "ls_wm1": {
@@ -454,9 +642,24 @@
       "tapp_changed": false,
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 7.4–7.6",
       "options": [
-        {"label": "Done", "short": "Safety ✓", "type": "success", "next": "ls_p54"},
-        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
-        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+        {
+          "label": "Done",
+          "short": "Safety ✓",
+          "type": "success",
+          "next": "ls_p54"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "type": "fail",
+          "next": "ls_esc_ts"
+        },
+        {
+          "label": "STOP, DON'T TOUCH",
+          "short": "STOP",
+          "type": "stop",
+          "next": "ls_stop"
+        }
       ]
     },
     "ls_p54": {
@@ -468,10 +671,30 @@
       "tapp_changed": false,
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 7.3; Terminal App Guide (Aug 2026), Glossary (Service Actions)",
       "options": [
-        {"label": "No diagnostics", "short": "Diag ✓", "type": "success", "next": "ls_p55"},
-        {"label": "Diagnostics listed", "short": "Diagnostics", "type": "fail", "next": "ls_esc_diag"},
-        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
-        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+        {
+          "label": "No diagnostics",
+          "short": "Diag ✓",
+          "type": "success",
+          "next": "ls_p55"
+        },
+        {
+          "label": "Diagnostics listed",
+          "short": "Diagnostics",
+          "type": "fail",
+          "next": "ls_esc_diag"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "type": "fail",
+          "next": "ls_esc_ts"
+        },
+        {
+          "label": "STOP, DON'T TOUCH",
+          "short": "STOP",
+          "type": "stop",
+          "next": "ls_stop"
+        }
       ]
     },
     "ls_esc_diag": {
@@ -490,19 +713,48 @@
       "tapp_changed": true,
       "source": "Terminals SOP 500-009358-01 (rev Oct 13, 2026), Launching 6.3, 7.1–7.2, 8.2",
       "options": [
-        {"label": "Autonomy engaged", "short": "Launched ✓", "type": "success", "next": "ls_done"},
-        {"label": "No ready state on the pad", "short": "No ready", "type": "fail", "next": "ls_rs1"},
-        {"label": "Launch step shows an error", "short": "Launch err", "type": "fail", "next": "ls_r_launch"},
-        {"label": "Something else", "short": "Other", "type": "fail", "next": "ls_esc_ts"},
-        {"label": "STOP, DON'T TOUCH", "short": "STOP", "type": "stop", "next": "ls_stop"}
+        {
+          "label": "Autonomy engaged",
+          "short": "Launched ✓",
+          "type": "success",
+          "next": "ls_done"
+        },
+        {
+          "label": "No ready state on the pad",
+          "short": "No ready",
+          "type": "fail",
+          "next": "ls_rs1"
+        },
+        {
+          "label": "Launch step shows an error",
+          "short": "Launch err",
+          "type": "fail",
+          "next": "ls_r_launch"
+        },
+        {
+          "label": "Something else",
+          "short": "Other",
+          "type": "fail",
+          "next": "ls_esc_ts"
+        },
+        {
+          "label": "STOP, DON'T TOUCH",
+          "short": "STOP",
+          "type": "stop",
+          "next": "ls_stop"
+        }
       ],
       "variants": [
         {
-          "when": {"platform": "peterbilt"},
+          "when": {
+            "platform": "peterbilt"
+          },
           "help": "Peterbilt: do the TBS check first (repeat it any time the engine was turned off and on; !tbscheck in Slack). Then immobilize (parking brake, wait 4 seconds, Neutral), chock, and press the map-pin button. Remove chocks, check no one is within 4 ft, and follow TApp's launch instructions."
         },
         {
-          "when": {"platform": "international"},
+          "when": {
+            "platform": "international"
+          },
           "help": "On the pad: immobilize (parking brake, wait 4 seconds, Neutral), chock, and press AUR AUTH on the dash. Then remove chocks, check no one is within 4 ft, and follow TApp's launch instructions."
         }
       ]
